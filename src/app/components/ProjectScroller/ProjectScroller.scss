@@ -1,3 +1,7 @@
+// ==================
+// DESKTOP SCROLLER
+// ==================
+
 .project-scroller-wrapper {
   display: flex;
   align-items: center;
@@ -13,21 +17,19 @@
   align-items: center;
   justify-content: center;
   
-  background: rgba(87, 85, 85, 0.1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(75, 75, 75, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   transition: all 0.3s ease;
   
   &:hover {
-    background: rgba(122, 121, 121, 0.1);
+    background: #2a2a2a;
     color: #ffffff;
     border-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   }
   
   &:active {
@@ -40,7 +42,7 @@
   max-width: 1500px;
   padding: 20px 0;
   
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(75, 75, 75, 0.4);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -106,13 +108,183 @@
   }
 }
 
+.card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+}
+
 .card-title {
-  padding: 14px 16px;
   font-size: 14px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.85);
   
   .project-card:hover & {
     color: #ffffff;
+  }
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.card-action-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+// ==================
+// MOBILE DROPDOWN
+// ==================
+
+.project-dropdown {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 0 16px;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+.dropdown-header {
+  padding: 16px 20px;
+  background: rgba(75, 75, 75, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: none;
+  border-radius: 16px 16px 0 0;
+  
+  span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+}
+
+.dropdown-list {
+  background: rgba(75, 75, 75, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: none;
+  border-radius: 0 0 16px 16px;
+  overflow: hidden;
+}
+
+.dropdown-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.dropdown-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .project-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .chevron-icon {
+    color: rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease;
+  }
+  
+  .dropdown-item.expanded & {
+    background: rgba(255, 255, 255, 0.05);
+    
+    .project-title {
+      color: #ffffff;
+    }
+    
+    .chevron-icon {
+      transform: rotate(180deg);
+      color: #ffffff;
+    }
+  }
+}
+
+.dropdown-item-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  
+  .dropdown-item.expanded & {
+    max-height: 300px;
+  }
+}
+
+.project-image {
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.project-actions {
+  display: flex;
+  gap: 12px;
+  padding: 16px 20px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;  
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.25);
   }
 }

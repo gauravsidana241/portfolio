@@ -9,9 +9,10 @@ interface Stat {
 
 type StatsBarProps = {
   stats: Stat[];
+  isMobile?: boolean;
 }
 
-export default function StatsBar({ stats }: StatsBarProps) {
+export default function StatsBar({ stats, isMobile = false }: StatsBarProps) {
   return (
     <div className="stats-bar">
       {stats.map((stat, index) => (

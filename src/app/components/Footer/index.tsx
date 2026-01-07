@@ -8,9 +8,10 @@ interface FooterProps {
   phone: string;
   linkedIn?: string;
   github?: string;
+  isMobile?: boolean;
 }
 
-export default function Footer({ email, phone, linkedIn, github }: FooterProps) {
+export default function Footer({ email, phone, linkedIn, github, isMobile = false }: FooterProps) {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
 
