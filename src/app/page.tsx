@@ -61,7 +61,7 @@ export default function Home() {
     // 3. LOAD MODEL
     const loader = new GLTFLoader();
     loader.load(
-      '/models/coolsphere.glb', 
+      '/models/coolsphere4.0.glb', 
       (gltf) => {
         const model = gltf.scene;
         modelRef.current = model;
