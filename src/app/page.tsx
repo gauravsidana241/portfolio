@@ -9,7 +9,7 @@ import StatsBar from "./components/StatsBar";
 import Footer from "./components/Footer";
 
 export default function Home() {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const panelRef = useRef<THREE.Mesh>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera>(null);
@@ -26,7 +26,9 @@ export default function Home() {
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 
     renderer.setSize(window.innerWidth, window.innerHeight);
-    canvasRef.current.appendChild(renderer.domElement);
+    if (canvasRef.current) {
+      canvasRef.current.appendChild(renderer.domElement);
+    }
 
     // A4 aspect ratio (1:1.414)
     const panelWidth = 10;
