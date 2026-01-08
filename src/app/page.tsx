@@ -8,6 +8,7 @@ import NavBar from "./components/NavBar";
 import ProjectScroller from "./components/ProjectScroller";
 import StatsBar from "./components/StatsBar";
 import Footer from "./components/Footer";
+import TechStack from "./components/TechStack";
 
 export default function Home() {
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -123,12 +124,31 @@ export default function Home() {
     link.click();
   };
 
-  const projects = [
-    { id: 1, title: "Project Alpha", image: "/placeholder.jpg", demoUrl: "#", repoUrl: "#" },
-    { id: 2, title: "Project Beta", image: "/placeholder.jpg", demoUrl: "#", repoUrl: "#" },
-    { id: 3, title: "Project Gamma", image: "/placeholder.jpg", demoUrl: "#", repoUrl: "#" },
-  ];
+  const stack = {
+    databases: ["MongoDB", "PostgreSQL", "MySQL", "Redis"],
+    backend: ["Node.js", "Express", "Django", "Flask", "FastAPI"],
+    frontend: ["React", "Vue.js", "Next.js", "TypeScript"],
+    devops: ["Docker", "AWS", "GitHub Actions"]
+  }
 
+  const projects = [
+    {
+      "id": 1,
+      "title": "FormHook Delivery System",
+      "description": "Fault-tolerant webhook infrastructure featuring distributed job queues, exponential backoff retries, and real-time failure simulation.",
+      "techStack": ["Next.js 16", "TypeScript", "BullMQ", "Redis", "Node.js"],
+      "demoUrl": "https://formhook.vercel.app/",
+      "repoUrl": "https://github.com/gauravsidana241/formhook"
+    },
+    {
+      id: 2,
+      title: "Project Beta",
+      description: "A scalable distributed system...",
+      techStack: ["React", "Node.js", "MongoDB", "Kafka"],
+      demoUrl: "https://demo.example.com",
+      repoUrl: "https://github.com/example/alpha"
+    },
+  ]
   const navItems = [
     { label: "Home", action: () => scrollToSection('intro') },
     { label: "Projects", action: () => scrollToSection('projects') },
@@ -151,9 +171,9 @@ export default function Home() {
               <div className="intro-mobile">
                 <h1>Hi, I am <span className="name-highlight">Gaurav Sidana</span></h1>
                 <h2>Full Stack Developer</h2>
-                <p className="intro-mobile-text">
+                {/* <p className="intro-mobile-text">
                   Full Stack Developer with 2+ years of experience engineering scalable backend solutions and web applications. Currently pursuing a Master's in CS at Glasgow, I focus on optimizing distributed pipelines and building high-impact software at scale.
-                </p>
+                </p> */}
                 <a href="mailto:gauravsidana241@gmail.com" className="email-pill">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
@@ -214,8 +234,12 @@ export default function Home() {
             )}
           </div>
           <div className="projects-section" id="projects">
-            <ProjectScroller projects={projects} isMobile={isMobile} />
+            <ProjectScroller 
+              projects={projects} 
+              autoRotateInterval={20000} // optional, defaults to 10 seconds
+            />
           </div>
+              {/* <TechStack stack={stack} autoScrollInterval={5000} /> */}
         </div>
         <div className="footer-section" id="footer">
           <Footer 
