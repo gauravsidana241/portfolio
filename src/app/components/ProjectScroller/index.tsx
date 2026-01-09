@@ -1,7 +1,7 @@
 "use client"
 
 import "./ProjectScroller.scss"
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 
 interface Project {
   id: number;
@@ -24,6 +24,11 @@ export default function ProjectScroller({
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [hoveredCell, setHoveredCell] = useState<number | null>(null)
+  
+  // Touch/swipe state
+  const touchStartX = useRef<number | null>(null)
+  const touchEndX = useRef<number | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const displayedProjects = projects.slice(0, 6)
   const currentProject = displayedProjects[currentIndex]
@@ -47,6 +52,46 @@ export default function ProjectScroller({
     }, 300)
   }, [currentIndex, isTransitioning])
 
+  // Navigate to next/previous
+  const goNext = useCallback(() => {
+    goToProject((currentIndex + 1) % displayedProjects.length)
+  }, [currentIndex, displayedProjects.length, goToProject])
+
+  const goPrev = useCallback(() => {
+    goToProject((currentIndex - 1 + displayedProjects.length) % displayedProjects.length)
+  }, [currentIndex, displayedProjects.length, goToProject])
+
+  // Touch handlers for swipe
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+    touchEndX.current = null
+  }, [])
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX
+  }, [])
+
+  const handleTouchEnd = useCallback(() => {
+    if (touchStartX.current === null || touchEndX.current === null) return
+    
+    const swipeDistance = touchStartX.current - touchEndX.current
+    const minSwipeDistance = 50 // Minimum distance for a valid swipe
+    
+    if (Math.abs(swipeDistance) > minSwipeDistance) {
+      if (swipeDistance > 0) {
+        // Swiped left -> go to next
+        goNext()
+      } else {
+        // Swiped right -> go to previous
+        goPrev()
+      }
+    }
+    
+    // Reset
+    touchStartX.current = null
+    touchEndX.current = null
+  }, [goNext, goPrev])
+
   // Auto-rotate timer
   useEffect(() => {
     if (displayedProjects.length <= 1) return
@@ -67,17 +112,23 @@ export default function ProjectScroller({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
-        goToProject((currentIndex - 1 + displayedProjects.length) % displayedProjects.length)
+        goPrev()
       } else if (e.key === 'ArrowRight') {
-        goToProject((currentIndex + 1) % displayedProjects.length)
+        goNext()
       }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [currentIndex, displayedProjects.length, goToProject])
+  }, [goNext, goPrev])
 
   return (
-    <div className="project-showcase">
+    <div 
+      className="project-showcase"
+      ref={containerRef}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="showcase-belt">
         {/* Left side - Glass section with project info */}
         <div className="info-section">
@@ -189,6 +240,11 @@ export default function ProjectScroller({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Mobile swipe hint - only shows on first visit */}
+      <div className="swipe-hint">
+        <span>Swipe to navigate</span>
       </div>
     </div>
   )

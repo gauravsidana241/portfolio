@@ -125,10 +125,11 @@ export default function Home() {
   };
 
   const stack = {
-    databases: ["MongoDB", "PostgreSQL", "MySQL", "Redis"],
-    backend: ["Node.js", "Express", "Django", "Flask", "FastAPI"],
-    frontend: ["React", "Vue.js", "Next.js", "TypeScript"],
-    devops: ["Docker", "AWS", "GitHub Actions"]
+    languages: ["Python", "Java", "C++", "JavaScript", "React"],
+    backend: ["Kafka", "Temporal", "Redis", "BullMQ"],
+    databases: ["PostgreSQL", "MySQL", "MongoDB"],
+    devops: ["Kubernetes", "Docker", "GCP", "Git", "OpenTelemetry", "Grafana"],
+    creative: ["Blender", "Maya", "Unreal Engine 5"]
   }
 
   const projects = [
@@ -141,17 +142,23 @@ export default function Home() {
       "repoUrl": "https://github.com/gauravsidana241/formhook"
     },
     {
-      id: 2,
-      title: "Project Beta",
-      description: "A scalable distributed system...",
-      techStack: ["React", "Node.js", "MongoDB", "Kafka"],
-      demoUrl: "https://demo.example.com",
-      repoUrl: "https://github.com/example/alpha"
+      "id": 2,
+      "title": "Crime Alert System",
+      "description": "Full-stack reporting platform featuring role-based access control (RBAC) and interactive mapping for real-time public safety monitoring.",
+      "techStack": ["React.js", "Node.js", "Sequelize", "Mapbox"],
+      "repoUrl": "https://github.com/gauravsidana241/crimealert"
     },
+    {
+      "id": 3,
+      "title": "Virtual Programming Lab",
+      "description": "Interactive online coding environment with multi-tier user management designed to streamline workflows for students and instructors.",
+      "techStack": ["JavaScript", "PHP", "CSS"],
+    }
   ]
   const navItems = [
     { label: "Home", action: () => scrollToSection('intro') },
     { label: "Projects", action: () => scrollToSection('projects') },
+    { label: "Skills", action: () => scrollToSection('techstack') },
     { label: "Contact", action: () => scrollToSection('footer') },
   ];
 
@@ -239,7 +246,9 @@ export default function Home() {
               autoRotateInterval={20000} // optional, defaults to 10 seconds
             />
           </div>
-              {/* <TechStack stack={stack} autoScrollInterval={5000} /> */}
+          <div className="techstack-section" id="techstack">
+            <TechStack stack={stack}/>
+          </div>
         </div>
         <div className="footer-section" id="footer">
           <Footer 

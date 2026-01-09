@@ -40,7 +40,7 @@ body, html {
     gap: 24px;
     max-width: 800px;
     width: 100%;
-    margin-left: -25%;
+    // margin-left: -25%;
     box-sizing: border-box;
     
     @media (max-width: 768px) {
@@ -56,6 +56,13 @@ body, html {
   display: flex;
   justify-content: center;
   padding: 40px 0;
+}
+
+.techstack-section {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  // padding: 40px 0;
 }
 
 .footer-section {

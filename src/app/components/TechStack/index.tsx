@@ -1,126 +1,58 @@
-"use client"
+import React, { useState } from 'react';
+import './TechStack.scss';
 
-import "./TechStack.scss"
-import { useState, useEffect, useCallback } from "react"
-
-interface TechStackProps {
-  stack: Record<string, string[]>;
-  autoScrollInterval?: number;
+interface Stack {
+  [category: string]: string[];
 }
 
-export default function TechStack({ 
-  stack, 
-  autoScrollInterval = 4000 
-}: TechStackProps) {
-  const [currentSection, setCurrentSection] = useState(0)
-  const [isTransitioning, setIsTransitioning] = useState(false)
-  const [displayedText, setDisplayedText] = useState<string[]>([])
-  
-  const sections = Object.entries(stack)
-  const currentSectionData = sections[currentSection]
-  const sectionTitle = currentSectionData?.[0] || ""
-  const sectionTechs = currentSectionData?.[1] || []
+type TechStackProps = {
+  stack: Stack
+}
 
-  // Typing effect for tech items
-  useEffect(() => {
-    setDisplayedText([])
-    
-    const timers: NodeJS.Timeout[] = []
-    
-    sectionTechs.forEach((tech, index) => {
-      const timer = setTimeout(() => {
-        setDisplayedText(prev => [...prev, tech])
-      }, index * 120)
-      timers.push(timer)
-    })
-    
-    return () => timers.forEach(t => clearTimeout(t))
-  }, [currentSection, sectionTechs])
-
-  // Auto-scroll sections
-  useEffect(() => {
-    if (sections.length <= 1) return
-
-    const timer = setInterval(() => {
-      setIsTransitioning(true)
-      setTimeout(() => {
-        setCurrentSection(prev => (prev + 1) % sections.length)
-        setTimeout(() => setIsTransitioning(false), 100)
-      }, 300)
-    }, autoScrollInterval)
-
-    return () => clearInterval(timer)
-  }, [sections.length, autoScrollInterval])
-
-  // Navigate to section
-  const goToSection = useCallback((index: number) => {
-    if (index === currentSection || isTransitioning) return
-    setIsTransitioning(true)
-    setTimeout(() => {
-      setCurrentSection(index)
-      setTimeout(() => setIsTransitioning(false), 100)
-    }, 300)
-  }, [currentSection, isTransitioning])
+export default function TechStack({ stack }: TechStackProps) {
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   return (
-    <div className="tech-stack">
-      <div className="terminal-container">
-        {/* Subtle noise overlay */}
-        <div className="noise-overlay" />
-        
-        {/* Header bar */}
-        <div className="terminal-header">
-          <div className="header-dots">
-            <span className="dot" />
-            <span className="dot" />
-            <span className="dot" />
-          </div>
-          <span className="header-title">~/.skills</span>
+    <section className="techstack">
+      <div className="techstack__container">
+        <div className="techstack__header">
+          <h2 className="techstack__title">Tech Stack</h2>
+          <p className="techstack__subtitle">Technologies I work with daily</p>
         </div>
-        
-        {/* Terminal content */}
-        <div className="terminal-content">
-          {/* Command line with section */}
-          <div className={`command-line ${isTransitioning ? 'transitioning' : ''}`}>
-            <span className="prompt">$</span>
-            <span className="command">cat</span>
-            <span className="path">{sectionTitle}.json</span>
-          </div>
-          
-          {/* Output - Tech grid */}
-          <div className={`output-block ${isTransitioning ? 'transitioning' : ''}`}>
-            <span className="bracket">[</span>
-            <div className="tech-list">
-              {displayedText.map((tech, i) => (
-                <span 
-                  key={`${currentSection}-${i}`}
-                  className="tech-item"
-                >
-                  "{tech}"{i < sectionTechs.length - 1 ? ',' : ''}
-                </span>
-              ))}
-              {displayedText.length < sectionTechs.length && (
-                <span className="cursor" />
-              )}
-            </div>
-            <span className="bracket">]</span>
-          </div>
-        </div>
-        
-        {/* Footer navigation */}
-        <div className="terminal-footer">
-          {sections.map(([name], idx) => (
-            <button
-              key={name}
-              className={`tab ${idx === currentSection ? 'active' : ''}`}
-              onClick={() => goToSection(idx)}
+
+        <div className="techstack__grid">
+          {Object.entries(stack).map(([category, techs], index) => (
+            <div
+              key={category}
+              className={`techstack__card ${activeCategory === category ? 'techstack__card--active' : ''}`}
+              onMouseEnter={() => setActiveCategory(category)}
+              onMouseLeave={() => setActiveCategory(null)}
+              style={{ '--card-index': index } as React.CSSProperties}
             >
-              <span className="tab-index">{idx + 1}</span>
-              <span className="tab-name">{name}</span>
-            </button>
+              <div className="techstack__card-glow" />
+              
+              <div className="techstack__card-header">
+                <h3 className="techstack__card-title">{category}</h3>
+              </div>
+
+              <div className="techstack__card-divider" />
+
+              <ul className="techstack__card-list">
+                {techs.map((tech, techIndex) => (
+                  <li
+                    key={tech}
+                    className="techstack__card-item"
+                    style={{ '--item-index': techIndex } as React.CSSProperties}
+                  >
+                    <span className="techstack__card-dot" />
+                    {tech}
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
         </div>
       </div>
-    </div>
-  )
+    </section>
+  );
 }
