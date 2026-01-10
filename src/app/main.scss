@@ -74,6 +74,11 @@ body, html {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  
+  @media (max-width: 768px) {
+    min-height: auto;
+    padding-bottom: 40px;
+  }
 }
 
 // Z-INDEX 3: Intro content positioned on the right
@@ -97,9 +102,12 @@ body, html {
     top: auto;
     transform: none;
     max-width: 100%;
-    padding: 120px 20px 40px;
+    width: 100%;
+    padding: 80px 20px 20px;
     display: flex;
     justify-content: center;
+    min-height: 55vh;
+    align-items: center;
   }
 }
 
@@ -166,50 +174,35 @@ body, html {
     position: relative;
     bottom: auto;
     left: auto;
-    padding: 20px;
+    padding: 10px 20px 30px;
     display: flex;
     justify-content: center;
+    
+    // Make stats smaller on mobile
+    :global(.stats-bar) {
+      gap: 30px;
+    }
   }
 }
 
-// ==================
-// SCROLL INDICATOR
-// ==================
-
+// Scroll indicator at bottom center
 .scroll-indicator {
   position: absolute;
-  bottom: 60px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  animation: float 2s ease-in-out infinite;
   
-  .scroll-line {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.3),
-      transparent
-    );
+  span {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
   }
   
   @media (max-width: 768px) {
     display: none;
   }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(8px); }
 }
 
 .main-content {
@@ -325,26 +318,36 @@ body, html {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 16px;
+  gap: 20px;
   padding: 20px;
+  width: 100%;
+  max-width: 340px;
   
   h1 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.6);
     margin: 0;
+    line-height: 1.3;
     
     .name-highlight {
       font-weight: 700;
       color: rgba(255, 255, 255, 0.95);
+      display: block;
+      font-size: 2.2rem;
+      margin-top: 4px;
+      &__red {
+        color: #e74c3c; // Red accent like desktop
+      }
     }
   }
   
   h2 {
-    font-size: 1.50rem;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
     margin: 0;
+    letter-spacing: 0.05em;
   }
 
   .intro-mobile-text {
@@ -355,13 +358,20 @@ body, html {
   }
 
   .social-links {
-    margin-top: 8px;
+    margin-top: 4px;
     justify-content: center;
-    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .social-btn {
+    width: 44px;
+    height: 44px;
   }
 
   .resume-btn {
-    margin-top: 8px;
+    margin-top: 4px;
+    padding: 12px 24px;
+    font-size: 14px;
   }
 }
 
@@ -382,6 +392,7 @@ body, html {
   
   svg {
     color: rgba(255, 255, 255, 0.6);
+    flex-shrink: 0;
   }
   
   &:hover {
@@ -394,5 +405,15 @@ body, html {
   
   &:active {
     transform: scale(0.98);
+  }
+  
+  @media (max-width: 768px) {
+    padding: 10px 16px;
+    font-size: 12px;
+    gap: 8px;
+    margin-top: 4px;
+    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
   }
 }
