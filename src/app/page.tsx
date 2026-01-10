@@ -266,9 +266,7 @@ export default function Home() {
           </div>
           
           {/* Stats at bottom left */}
-          <div className="stats-container">
-            <StatsBar stats={stats} isMobile={isMobile} />
-          </div>
+          {!isMobile && <StatsBar stats={stats} />}
           
           {/* Scroll indicator */}
           <div className="scroll-indicator">
