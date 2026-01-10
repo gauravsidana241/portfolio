@@ -12,6 +12,7 @@ import TechStack from "./components/TechStack";
 
 export default function Home() {
   const canvasRef = useRef<HTMLDivElement>(null);
+  const roleTextRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const modelRef = useRef<THREE.Group | null>(null);
 
@@ -23,6 +24,19 @@ export default function Home() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Scroll sync for role text - makes it scroll with the page while staying behind the model
+  useEffect(() => {
+    const handleScroll = () => {
+      if (roleTextRef.current) {
+        const scrollY = window.scrollY;
+        roleTextRef.current.style.transform = `translateY(-${scrollY}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Three.js Scene
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -31,6 +45,7 @@ export default function Home() {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 4; 
+    camera.position.y = 0.2;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -39,22 +54,18 @@ export default function Home() {
     renderer.toneMappingExposure = 1.2;
     canvasRef.current.appendChild(renderer.domElement);
 
-    // 2. LIGHTING - Fixed for better color visibility
-    // Dim ambient so colored lights stand out more
+    // 2. LIGHTING
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
     scene.add(ambientLight);
 
-    // Red light - positioned to one side
     const redLight = new THREE.PointLight(0xbd2a2a, 15, 50);
     redLight.position.set(5, 3, 3);
     scene.add(redLight);
 
-    // Blue/Cyan light - positioned to opposite side
     const blueLight = new THREE.PointLight(0xb5b5b5, 15, 50);
     blueLight.position.set(-5, -3, 3);
     scene.add(blueLight);
 
-    // Optional: Add a subtle backlight
     const backLight = new THREE.PointLight(0xb5b5b5, 8, 50);
     backLight.position.set(0, 0, -5);
     scene.add(backLight);
@@ -67,13 +78,12 @@ export default function Home() {
         const model = gltf.scene;
         modelRef.current = model;
 
-        // MATERIAL: More reflective to catch colored lights
         model.traverse((child) => {
           if (child instanceof THREE.Mesh) {
             child.material = new THREE.MeshStandardMaterial({
-              color: 0xffffff,        // Slightly gray to show colors better
-              roughness: 0.3,         // Smoother = more reflective
-              metalness: 0.4,         // High metalness reflects light colors
+              color: 0xffffff,
+              roughness: 0.3,
+              metalness: 0.4,
               side: THREE.DoubleSide,
               envMapIntensity: 1.0
             });
@@ -155,6 +165,7 @@ export default function Home() {
       "techStack": ["JavaScript", "PHP", "CSS"],
     }
   ]
+
   const navItems = [
     { label: "Home", action: () => scrollToSection('intro') },
     { label: "Projects", action: () => scrollToSection('projects') },
@@ -169,18 +180,32 @@ export default function Home() {
 
   return (
     <>
+      {/* Z-INDEX 1: Fixed background gradient */}
+      <div className="background-gradient"></div>
+      
+      {/* Z-INDEX 1.5: Role text - fixed position but synced to scroll via JS */}
+      {!isMobile && (
+        <div className="role-text-background" ref={roleTextRef}>
+          <span className="role-line">FULL STACK</span>
+          <span className="role-line">DEVELOPER</span>
+        </div>
+      )}
+      
+      {/* Z-INDEX 2: 3D Model Canvas - Fixed position, stays in place */}
       <div className="canvas-container" ref={canvasRef}></div>
+      
+      {/* Z-INDEX 3: Content Layer - Scrolls with page */}
       <div className="content-container" id="intro">
         <NavBar items={navItems} isMobile={isMobile} />
-        <div className="main-content">
-          <div className="intro-section">
+        
+        {/* Hero Section with layered layout */}
+        <div className="hero-section">
+          {/* Z-INDEX 3: Intro content on the right */}
+          <div className="intro-content">
             {isMobile ? (
               <div className="intro-mobile">
                 <h1>Hi, I am <span className="name-highlight">Gaurav Sidana</span></h1>
                 <h2>Full Stack Developer</h2>
-                {/* <p className="intro-mobile-text">
-                  Full Stack Developer with 2+ years of experience engineering scalable backend solutions and web applications. Currently pursuing a Master's in CS at Glasgow, I focus on optimizing distributed pipelines and building high-impact software at scale.
-                </p> */}
                 <a href="mailto:gauravsidana241@gmail.com" className="email-pill">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
@@ -209,14 +234,14 @@ export default function Home() {
               </div>
             ) : (
               <div className="intro-desktop">
-                <div className="intro-left">
-                  <div className="intro-text">
-                    <h1>Hi, I am <span className="name-highlight">Gaurav Sidana</span>,</h1>
-                    <h2>Full Stack Developer | AI Enthusiast</h2>
-                    <p className="intro-brief">
-                      Full Stack Developer with 2+ years of experience engineering scalable backend solutions and web applications. Currently pursuing a Master's in CS at Glasgow, I focus on optimizing distributed pipelines and building high-impact software at scale.
-                    </p>
-                  </div>
+                <div className="intro-right">
+                  <p className="intro-greeting">Hi, I am</p>
+                  <h1 className="intro-name">
+                    Gaurav <span className="name-highlight">Sidana</span>
+                  </h1>
+                  <p className="intro-brief">
+                    Full Stack Developer with 2+ years of experience engineering scalable backend solutions and web applications. Currently pursuing a Master's in CS at Glasgow, I focus on optimizing distributed pipelines and building high-impact software at scale.
+                  </p>
                   <div className="social-links">
                     <a href="https://www.linkedin.com/in/gaurav-sidana-7a5118242" target="_blank" rel="noopener noreferrer" className="social-btn">
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -235,15 +260,29 @@ export default function Home() {
                       Download CV
                     </button>
                   </div>
-                  <StatsBar stats={stats} isMobile={isMobile} />
                 </div>
               </div>
             )}
           </div>
+          
+          {/* Stats at bottom left */}
+          <div className="stats-container">
+            <StatsBar stats={stats} isMobile={isMobile} />
+          </div>
+          
+          {/* Scroll indicator */}
+          {/* Scroll indicator */}
+          <div className="scroll-indicator">
+            <span>Scroll</span>
+            <div className="scroll-line"></div>
+          </div>
+        </div>
+
+        <div className="main-content">
           <div className="projects-section" id="projects">
             <ProjectScroller 
               projects={projects} 
-              autoRotateInterval={20000} // optional, defaults to 10 seconds
+              autoRotateInterval={20000}
             />
           </div>
           <div className="techstack-section" id="techstack">

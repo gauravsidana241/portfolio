@@ -4,7 +4,8 @@ body, html {
   background: #000000 !important;
 }
 
-.canvas-container {
+// Z-INDEX 1: Background layer with gradient - FIXED (stays in place)
+.background-gradient {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,16 +13,203 @@ body, html {
   height: 100%;
   z-index: 1;
   background: linear-gradient(135deg, #0a0a0a 0%, #1f1e1e 50%, #2d3030 100%);
+  pointer-events: none;
 }
 
+// Z-INDEX 1.5: Role text - FIXED position, scroll synced via JavaScript
+.role-text-background {
+  position: fixed;
+  top: 100px; // Below navbar
+  left: 40px;
+  z-index: 1; // Behind canvas (z-index 2), so behind the model
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  pointer-events: none;
+  will-change: transform; // Optimize for transform animations
+  
+  .role-line {
+    font-size: clamp(4rem, 15vw, 14rem);
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.08);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+// Z-INDEX 2: 3D Model Canvas - Fixed in center, TRANSPARENT background
+.canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: transparent;
+  pointer-events: none;
+}
+
+// Z-INDEX 3: Content container - scrolls, ABOVE model
 .content-container {
   position: relative;
-  z-index: 2;
+  z-index: 3; // Above the canvas
   min-height: 100vh;
   color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+// Hero section - full viewport height
+.hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+// Z-INDEX 3: Intro content positioned on the right
+.intro-content {
+  position: absolute;
+  right: 60px;
+  top: 67%;
+  transform: translateY(-50%);
+  z-index: 3;
+  max-width: 520px; // Slightly wider
+  pointer-events: auto;
+  
+  @media (max-width: 1200px) {
+    right: 40px;
+    max-width: 440px;
+  }
+  
+  @media (max-width: 768px) {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    max-width: 100%;
+    padding: 120px 20px 40px;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+// Desktop intro styles - LARGER TEXT
+.intro-desktop {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  
+  .intro-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 18px;
+  }
+  
+  .intro-greeting {
+    font-size: 1.3rem; // Increased from 1.1rem
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    font-weight: 400;
+  }
+  
+  .intro-name {
+    font-size: 4.2rem; // Increased from 3.5rem
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0;
+    line-height: 1.1;
+    
+    .name-highlight {
+      color: #e74c3c; // Red accent color
+    }
+    
+    @media (max-width: 1200px) {
+      font-size: 3.2rem;
+    }
+  }
+  
+  .intro-brief {
+    font-size: 1.1rem; // Increased from 0.95rem
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 8px 0 0 0;
+    max-width: 460px; // Slightly wider
+  }
+  
+  .social-links {
+    margin-top: 20px;
+    justify-content: flex-end;
+  }
+}
+
+// Stats container at bottom left
+.stats-container {
+  position: absolute;
+  bottom: 90px;
+  left: 60px;
+  z-index: 3;
+  pointer-events: auto;
+  
+  @media (max-width: 768px) {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+// ==================
+// SCROLL INDICATOR
+// ==================
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  animation: float 2s ease-in-out infinite;
+  
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+  }
+  
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
 }
 
 .main-content {
@@ -31,24 +219,6 @@ body, html {
   align-items: center;
   gap: 10px;
   width: 100%;
-
-  .intro-section {
-    padding: 60px 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-    max-width: 800px;
-    width: 100%;
-    // margin-left: -25%;
-    box-sizing: border-box;
-    
-    @media (max-width: 768px) {
-      margin-left: 0;
-      padding: 80px 16px 20px;
-      align-items: center;
-    }
-  }
 }
 
 .projects-section {
@@ -62,59 +232,11 @@ body, html {
   width: 100%;
   display: flex;
   justify-content: right;
-  // padding: 40px 0;
 }
 
 .footer-section {
   width: 100%;
   margin-top: 60px;
-}
-
-.intro-desktop {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  margin-left: -20%;
-
-  .intro-left {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .intro-text {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 400;
-      color: rgba(255, 255, 255, 0.7);
-      margin: 0;
-      
-      .name-highlight {
-        font-weight: 700;
-        color: rgba(255, 255, 255, 0.95);
-      }
-    }
-    
-    h2 {
-      font-size: 2rem;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.9);
-      margin: 0;
-    }
-    
-    .intro-brief {
-      margin-top: 16px;
-      font-size: 1rem;
-      line-height: 1.7;
-      color: rgba(255, 255, 255, 0.6);
-      max-width: 600px;
-    }
-  }
 }
 
 // Glass button base mixin
@@ -143,8 +265,8 @@ body, html {
 }
 
 .social-btn {
-  width: 44px;
-  height: 44px;
+  width: 48px; // Slightly larger
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -169,10 +291,10 @@ body, html {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 20px;
+  padding: 14px 24px; // Slightly larger padding
   border-radius: 50px;
   color: rgba(255, 255, 255, 0.85);
-  font-size: 14px;
+  font-size: 15px; // Slightly larger
   font-weight: 500;
   cursor: pointer;
   pointer-events: auto;
