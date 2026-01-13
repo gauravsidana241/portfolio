@@ -272,7 +272,8 @@ export default function Home() {
           
           {/* Scroll indicator */}
           <div className="scroll-indicator">
-            <span>SCROLL</span>
+            <span>Scroll</span>
+            <div className="scroll-line"></div>
           </div>
         </div>
 
