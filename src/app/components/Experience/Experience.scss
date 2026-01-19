@@ -1,0 +1,186 @@
+// Variables
+$accent-red: #e74c3c;
+$text-white: #ffffff;
+$text-grey: rgba(255, 255, 255, 0.7);
+
+.experience-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 0;
+  background: transparent !important;
+  position: relative;
+  font-family: inherit;
+
+  .experience-scroll-wrapper {
+    display: flex;
+    flex-direction: column;
+    /* No gaps between flex items to ensure line continuity */
+    gap: 0; 
+  }
+
+  .experience-section {
+    display: flex;
+    flex-direction: row;
+    /* 'stretch' is CRITICAL here. It makes the timeline-col 
+       equal in height to the content-col, ensuring the line 
+       always spans the full distance. */
+    align-items: stretch; 
+    position: relative;
+  }
+
+  /* --- Timeline Column --- */
+  .timeline-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 30px;
+    min-width: 50px;
+    position: relative;
+
+    .timeline-line {
+      position: absolute;
+      width: 2px;
+      background: rgba(255, 255, 255, 0.15); /* Slightly more visible */
+      z-index: 1;
+      left: 50%;
+      transform: translateX(-50%);
+      
+      /* Span the entire height of the parent timeline-col */
+      top: 0;
+      bottom: 0;
+    }
+
+    .timeline-dot {
+      /* Dot sits on top of the line */
+      margin-top: 18px; /* Push dot down to align with Title text cap-height */
+      width: 16px;
+      height: 16px;
+      background-color: $accent-red;
+      border-radius: 50%;
+      z-index: 2;
+      box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.2);
+      flex-shrink: 0;
+    }
+  }
+
+  /* --- Handling Start/End Logic --- */
+  
+  /* First Item: Line starts AT the dot */
+  .experience-section:first-child .timeline-line {
+    top: 26px; /* 18px (margin-top) + 8px (half dot height) */
+  }
+
+  /* Last Item: Line ends AT the dot */
+  .experience-section:last-child .timeline-line {
+    bottom: auto; /* Allow height to be explicit */
+    height: 26px; /* 18px (margin-top) + 8px (half dot height) */
+    /* This creates the "stop" effect */
+  }
+
+  /* --- Content Column --- */
+  .content-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    /* Padding is used for spacing instead of margin to preserve container height */
+    padding-bottom: 60px; 
+
+    .role-title {
+      font-size: 2.5rem;
+      color: $text-white;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.02em;
+    }
+
+    .company-info {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+      font-family: monospace;
+      font-size: 1.1rem;
+
+      .company-name {
+        color: $accent-red;
+        font-weight: 700;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .duration {
+        color: rgba(255, 255, 255, 0.5);
+      }
+    }
+
+    .description-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-width: 900px;
+
+      li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 12px;
+        color: $text-grey;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        font-weight: 400;
+
+        &::before {
+          content: '•';
+          color: rgba(255, 255, 255, 0.3);
+          font-weight: bold;
+          flex-shrink: 0;
+          margin-top: -1px;
+        }
+      }
+    }
+  }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .experience-container {
+    padding: 30px 20px;
+    
+    .timeline-col {
+      margin-right: 15px;
+      min-width: 30px;
+      
+      .timeline-dot {
+        margin-top: 12px; /* Adjust for smaller title */
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    /* Adjust First/Last for mobile dot position */
+    .experience-section:first-child .timeline-line {
+      top: 18px; /* 12px + 6px */
+    }
+    .experience-section:last-child .timeline-line {
+      height: 18px;
+    }
+
+    .content-col {
+      padding-bottom: 40px;
+      
+      .role-title {
+        font-size: 1.8rem;
+      }
+      
+      .company-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+    }
+  }
+}

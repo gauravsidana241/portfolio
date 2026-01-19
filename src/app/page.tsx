@@ -9,6 +9,7 @@ import ProjectScroller from "./components/ProjectScroller";
 import StatsBar from "./components/StatsBar";
 import Footer from "./components/Footer";
 import TechStack from "./components/TechStack";
+import ExperienceComponent from "./components/Experience";
 
 export default function Home() {
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -169,6 +170,7 @@ export default function Home() {
   const navItems = [
     { label: "Home", action: () => scrollToSection('intro') },
     { label: "Projects", action: () => scrollToSection('projects') },
+    { label: "Experience", action: () => scrollToSection('experience') },
     { label: "Skills", action: () => scrollToSection('techstack') },
     { label: "Contact", action: () => scrollToSection('footer') },
   ];
@@ -176,6 +178,44 @@ export default function Home() {
   const stats = [
     { value: "2+", label: "Years Experience" },
     { value: "3+", label: "Projects Completed" },
+  ];
+
+  const experienceList = [
+    {
+      position: "MSc Computing Science (AI Focus)",
+      company: "University of Glasgow",
+      startDate: "Sept 2025",
+      endDate: undefined, // Current
+      description: [
+        "Specializing in Artificial Intelligence and Machine Learning, with a focus on advanced algorithms and system design.",
+        "Deepening theoretical and practical knowledge in large-scale computing systems."
+      ],
+      companyLink: "https://www.gla.ac.uk/"
+    },
+    {
+      position: "Software Development Engineer",
+      company: "Fynd (Shopsense Retail)",
+      startDate: "Oct 2023",
+      endDate: "Aug 2025",
+      description: [
+        "Acted as a key developer in the architectural overhaul of 9 marketplace integrations, migrating from siloed applications to a unified platform orchestrated by Temporal workflows.",
+        "Designed and implemented a resilient, event-driven integration for the Amazon VDF marketplace, utilizing BullMQ and KafkaJS to process high-volume feed APIs.",
+        "Enhanced system-wide reliability by authoring the complete testing suite (using Jest and Specmatic) and integrating OpenTelemetry for distributed tracing.",
+        "Supported the infrastructure and deployment pipeline by managing containerized applications with Kubernetes and Docker."
+      ],
+      companyLink: "https://www.fynd.com/"
+    },
+    {
+      position: "Intern",
+      company: "Fynd (Shopsense Retail)",
+      startDate: "Oct 2023",
+      endDate: "Jan 2024",
+      description: [
+        "Completed 3 months of training in Full Stack Development with JavaScript.",
+        "Learned key technologies including MongoDB, Express, Vue.js, and Node.js."
+      ],
+      companyLink: "https://www.fynd.com/"
+    }
   ];
 
   return (
@@ -282,6 +322,11 @@ export default function Home() {
             <ProjectScroller 
               projects={projects} 
               autoRotateInterval={20000}
+            />
+          </div>
+          <div className="experience-section" id="experience">
+            <ExperienceComponent 
+              experienceList={experienceList}
             />
           </div>
           <div className="techstack-section" id="techstack">
