@@ -177,7 +177,6 @@ export default function Home() {
 
   const stats = [
     { value: "2+", label: "Years Experience" },
-    { value: "3+", label: "Projects Completed" },
   ];
 
   const experienceList = [
