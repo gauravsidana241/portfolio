@@ -136,11 +136,11 @@ export default function Home() {
   };
 
   const stack = {
-    languages: ["Python", "Java", "C++", "JavaScript", "React"],
-    backend: ["Kafka", "Temporal", "Redis", "BullMQ"],
-    databases: ["PostgreSQL", "MySQL", "MongoDB"],
-    devops: ["Kubernetes", "Docker", "GCP", "Git", "OpenTelemetry", "Grafana"],
-    creative: ["Blender", "Maya", "Unreal Engine 5"]
+    Languages: ["Python", "C++", "JavaScript", "React"],
+    Frontend: ["Next.js", "TypeScript", "Vue.js", "HTML5", "CSS3", "Sass"],
+    Backend: ["Kafka", "Temporal", "Redis", "BullMQ"],
+    Databases: ["PostgreSQL", "MySQL", "MongoDB"],
+    DevOps: ["Kubernetes", "Docker", "GCP", "Git", "OpenTelemetry", "Grafana"],
   }
 
   const projects = [

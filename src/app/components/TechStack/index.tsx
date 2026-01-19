@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './TechStack.scss';
 
 interface Stack {
@@ -10,8 +10,6 @@ type TechStackProps = {
 }
 
 export default function TechStack({ stack }: TechStackProps) {
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
-
   return (
     <section className="techstack">
       <div className="techstack__container">
@@ -24,11 +22,10 @@ export default function TechStack({ stack }: TechStackProps) {
           {Object.entries(stack).map(([category, techs], index) => (
             <div
               key={category}
-              className={`techstack__card ${activeCategory === category ? 'techstack__card--active' : ''}`}
-              onMouseEnter={() => setActiveCategory(category)}
-              onMouseLeave={() => setActiveCategory(null)}
+              className="techstack__card"
               style={{ '--card-index': index } as React.CSSProperties}
             >
+              {/* Static subtle glow */}
               <div className="techstack__card-glow" />
               
               <div className="techstack__card-header">
@@ -38,13 +35,8 @@ export default function TechStack({ stack }: TechStackProps) {
               <div className="techstack__card-divider" />
 
               <ul className="techstack__card-list">
-                {techs.map((tech, techIndex) => (
-                  <li
-                    key={tech}
-                    className="techstack__card-item"
-                    style={{ '--item-index': techIndex } as React.CSSProperties}
-                  >
-                    <span className="techstack__card-dot" />
+                {techs.map((tech) => (
+                  <li key={tech} className="techstack__card-item">
                     {tech}
                   </li>
                 ))}
