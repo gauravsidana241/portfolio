@@ -85,10 +85,8 @@ body, html {
 .intro-content {
   position: absolute;
   right: 60px;
-  bottom: 110px;
-  top: auto;
-  transform: none;
-  // transform: translateY(-50%);
+  top: 67%;
+  transform: translateY(-50%);
   z-index: 3;
   max-width: 520px; // Slightly wider
   pointer-events: auto;
