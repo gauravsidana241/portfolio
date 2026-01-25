@@ -3,6 +3,11 @@
 import "./main.scss"
 import { useEffect, useRef, useState } from "react";
 
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
+import { useSpring } from '@react-spring/core'
+import { a } from '@react-spring/web'
+
 // components
 import NavBar from "./components/NavBar";
 import ProjectScroller from "./components/ProjectScroller";
@@ -146,7 +151,18 @@ export default function Home() {
       
       {/* Z-INDEX 2: 3D Model Canvas - Fixed position, stays in place */}
       <div className="canvas-container">
-        <Scene />
+        <Canvas dpr={[1, 2]}>
+        {/* Scene MUST be inside Canvas for useFrame to work */}
+        <Scene/>
+        
+        <OrbitControls 
+          makeDefault
+          enablePan={false} 
+          enableZoom={false} 
+          maxPolarAngle={Math.PI / 2} 
+          minPolarAngle={Math.PI / 2} 
+        />
+      </Canvas>
       </div>
       
       {/* Z-INDEX 3: Content Layer - Scrolls with page */}

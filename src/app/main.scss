@@ -52,7 +52,7 @@ body, html {
   height: 100%;
   z-index: 2;
   background: transparent;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 // Z-INDEX 3: Content container - scrolls, ABOVE model
@@ -64,6 +64,8 @@ body, html {
   display: flex;
   flex-direction: column;
   align-items: center;
+  pointer-events: none;
+  
 }
 
 // Hero section - full viewport height
