@@ -35,7 +35,7 @@ export default function ExperienceComponent({
             
             {/* Right Content Card */}
             <div className="content-col">
-              <h2 className="role-title">{exp.position}</h2>
+              <h3 className="role-title">{exp.position}</h3>
               
               <div className="company-info">
                 <a 
