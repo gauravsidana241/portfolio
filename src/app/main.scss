@@ -105,7 +105,7 @@ body, html {
   transform: translateY(-50%);
   z-index: 3;
   max-width: 520px; // Slightly wider
-  pointer-events: none;
+  pointer-events: none; // Enable interactions later
   
   @media (max-width: 1200px) {
     right: 40px;
@@ -380,12 +380,12 @@ body, html {
   display: flex;
   flex-direction: column;
   min-height: 85vh; // Full height to create the gap
-  padding: 40px 24px;
+  padding: 16px 10px;
   width: 100%;
   pointer-events: none; // Default to none so the center is "dead space"
 
   .greeting-container {
-    pointer-events: none; // Re-enable for the name
+    pointer-events: auto; // Re-enable for the name
     h1 {
       font-size: 1.1rem;
       font-weight: 400;
@@ -407,6 +407,34 @@ body, html {
     flex-grow: 1;
     pointer-events: none; 
   }
+  
+  .draggable-spacer {
+  width: 100%;
+  margin: 0 auto;
+  padding: 120px 0 20px 0;
+  pointer-events: auto; // Keeps the area draggable even when icon is fading
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  // 4s total cycle: ~2s visible, ~2s hidden
+  animation: disappearAppear 4s infinite ease-in-out;
+
+  .drag-hint-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    
+    // Minimalist label styling
+    .scroll-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
+}
 
   // Bottom row: Role and Icons perfectly inline
   .bottom-anchor {
@@ -424,8 +452,8 @@ body, html {
         text-transform: uppercase;
         color: rgba(255, 255, 255, 0.9);
         border-left: 2px solid #e74c3c;
-        padding-left: 12px;
         margin: 0;
+        padding-left: 12px;
         line-height: 1.2;
       }
     }
@@ -487,5 +515,53 @@ body, html {
     // Same glass styling as other buttons
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+}
+
+.drag-hint-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+  pointer-events: none; // Ensure it doesn't block the blob interaction
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .chevron-top {
+    animation: pulseMove 2s infinite;
+  }
+
+  .chevron-bottom {
+    animation: pulseMove 2s infinite 0.5s; // Delayed for sequential effect
+  }
+}
+
+@keyframes pulseMove {
+  0%, 100% {
+    transform: translateY(0);
+    stroke: rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    transform: translateY(3px);
+    stroke: rgba(255, 255, 255, 0.6);
+  }
+}
+
+@keyframes disappearAppear {
+  0%, 40% {
+    opacity: 1;
+    visibility: visible;
+  }
+  50%, 90% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
   }
 }

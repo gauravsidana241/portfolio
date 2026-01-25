@@ -5,8 +5,6 @@ import { useEffect, useRef, useState } from "react";
 
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
-import { useSpring } from '@react-spring/core'
-import { a } from '@react-spring/web'
 
 // components
 import NavBar from "./components/NavBar";
@@ -16,7 +14,7 @@ import Footer from "./components/Footer";
 import TechStack from "./components/TechStack";
 import ExperienceComponent from "./components/Experience";
 import Scene from "./components/Scene";
-import { LinkedinIcon, GithubIcon, MailIcon } from "./components/Icons";
+import { LinkedinIcon, GithubIcon, MailIcon, DragHintIcon } from "./components/Icons";
 
 export default function Home() {
   const roleTextRef = useRef<HTMLDivElement>(null);
@@ -137,43 +135,6 @@ export default function Home() {
     }
   ];
 
-  // if (isMobile) {
-  //   return (
-  //     <>
-  //     {/* Z-INDEX 1: Fixed background gradient */}
-  //     <div className="background-gradient"></div>
-
-  //      {/* Z-INDEX 1.5: Role text - fixed position but synced to scroll via JS */}
-  //     {!isMobile && (
-  //       <div className="role-text-background" ref={roleTextRef}>
-  //         <span className="role-line">FULL STACK</span>
-  //         <span className="role-line">DEVELOPER</span>
-  //       </div>
-  //     )}
-
-  //      {/* Z-INDEX 2: 3D Model Canvas - Fixed position, stays in place */}
-  //     <div className="canvas-container">
-  //       <Canvas dpr={[1, 2]}>
-  //       {/* Scene MUST be inside Canvas for useFrame to work */}
-  //       <Scene isMobile={isMobile}/>
-        
-  //       <OrbitControls 
-  //         makeDefault
-  //         enablePan={false} 
-  //         enableZoom={false} 
-  //         maxPolarAngle={Math.PI / 2} 
-  //         minPolarAngle={Math.PI / 2} 
-  //       />
-  //     </Canvas>
-  //     </div>
-
-  //     <div className="content-container" id="intro">
-  //       <NavBar items={navItems} isMobile={isMobile} />
-  //     </div>
-  //     </>
-  //   )
-  // }
-
   return (
     <>
       {/* Z-INDEX 1: Fixed background gradient */}
@@ -225,6 +186,13 @@ export default function Home() {
 
             {/* DEAD SPACE: Clicks will pass through this area to the 3D model */}
             <div className="flex-spacer" />
+
+            <div className="draggable-spacer">
+              <div className="drag-hint-container">
+                <DragHintIcon />
+                <span className="scroll-label">Scroll to Orbit</span>
+              </div>
+            </div>
 
             {/* BOTTOM: Role and Icons aligned on the same horizontal line */}
             <div className="bottom-anchor">
