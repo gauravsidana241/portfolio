@@ -153,7 +153,7 @@ export default function Home() {
       <div className="canvas-container">
         <Canvas dpr={[1, 2]}>
         {/* Scene MUST be inside Canvas for useFrame to work */}
-        <Scene/>
+        <Scene isMobile={isMobile}/>
         
         <OrbitControls 
           makeDefault

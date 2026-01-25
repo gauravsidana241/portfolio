@@ -65,7 +65,19 @@ body, html {
   flex-direction: column;
   align-items: center;
   pointer-events: none;
-  
+  .nav-bar, 
+  .intro-content, 
+  .social-links, 
+  .resume-btn, 
+  .email-pill, 
+  .projects-section, 
+  .experience-section, 
+  .techstack-section, 
+  .footer-section,
+  button, 
+  a {
+    pointer-events: auto;
+  }
 }
 
 // Hero section - full viewport height
