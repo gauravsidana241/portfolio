@@ -186,14 +186,7 @@ export default function Home() {
 
             {/* DEAD SPACE: Clicks will pass through this area to the 3D model */}
             <div className="flex-spacer" />
-
-            <div className="draggable-spacer">
-              <div className="drag-hint-container">
-                <DragHintIcon />
-                <span className="scroll-label">Scroll to Orbit</span>
-              </div>
-            </div>
-
+            
             {/* BOTTOM: Role and Icons aligned on the same horizontal line */}
             <div className="bottom-anchor">
               <div className="role-container">
