@@ -379,7 +379,7 @@ body, html {
 .intro-mobile {
   display: flex;
   flex-direction: column;
-  min-height: 85vh; // Full height to create the gap
+  min-height: 65vh; // Full height to create the gap
   padding: 16px 10px;
   width: 100%;
   pointer-events: none; // Default to none so the center is "dead space"
