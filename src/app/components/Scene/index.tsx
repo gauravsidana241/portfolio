@@ -49,7 +49,10 @@ export default function Scene({ isMobile }: SceneProps) {
   const baseScale = isMobile ? 1 : 1.5
   const [{ scale, color }] = useSpring(
     {
-      from: { scale: 0 },
+      from: { 
+        scale: 0,
+        color: '#000000'
+      },
       to: {
         scale: down ? baseScale * 1.2 : hovered ? baseScale * 1.05 : baseScale,
         color: hovered ? '#801111' : '#000000',
