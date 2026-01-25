@@ -1,21 +1,20 @@
 "use client"
 
 import "./main.scss"
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { useEffect, useRef, useState } from "react";
+
+// components
 import NavBar from "./components/NavBar";
 import ProjectScroller from "./components/ProjectScroller";
 import StatsBar from "./components/StatsBar";
 import Footer from "./components/Footer";
 import TechStack from "./components/TechStack";
 import ExperienceComponent from "./components/Experience";
+import Scene from "./components/Scene";
 
 export default function Home() {
-  const canvasRef = useRef<HTMLDivElement>(null);
   const roleTextRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const modelRef = useRef<THREE.Group | null>(null);
 
   // Mobile check
   useEffect(() => {
@@ -36,91 +35,6 @@ export default function Home() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Three.js Scene
-  useEffect(() => {
-    if (!canvasRef.current) return;
-
-    // 1. SETUP
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 4; 
-    camera.position.y = 0.2;
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
-    canvasRef.current.appendChild(renderer.domElement);
-
-    // 2. LIGHTING
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
-    scene.add(ambientLight);
-
-    const redLight = new THREE.PointLight(0xbd2a2a, 15, 50);
-    redLight.position.set(5, 3, 3);
-    scene.add(redLight);
-
-    const blueLight = new THREE.PointLight(0xb5b5b5, 15, 50);
-    blueLight.position.set(-5, -3, 3);
-    scene.add(blueLight);
-
-    const backLight = new THREE.PointLight(0xb5b5b5, 8, 50);
-    backLight.position.set(0, 0, -5);
-    scene.add(backLight);
-
-    // 3. LOAD MODEL
-    const loader = new GLTFLoader();
-    loader.load(
-      '/models/coolsphere4.0.glb', 
-      (gltf) => {
-        const model = gltf.scene;
-        modelRef.current = model;
-
-        model.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            child.material = new THREE.MeshStandardMaterial({
-              color: 0xffffff,
-              roughness: 0.3,
-              metalness: 0.4,
-              side: THREE.DoubleSide,
-              envMapIntensity: 1.0
-            });
-          }
-        });
-
-        scene.add(model);
-      },
-      undefined,
-      (error) => console.error('Error loading model:', error)
-    );
-
-    // 4. ANIMATION LOOP
-    const animate = () => {
-      if (modelRef.current) {
-        modelRef.current.rotation.y += 0.003;
-        modelRef.current.rotation.x += 0.001;
-      }
-      renderer.render(scene, camera);
-      requestAnimationFrame(animate);
-    };
-    animate();
-
-    // 5. RESIZE HANDLER
-    const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    };
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      canvasRef.current?.removeChild(renderer.domElement);
-      renderer.dispose();
-    };
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -231,7 +145,9 @@ export default function Home() {
       )}
       
       {/* Z-INDEX 2: 3D Model Canvas - Fixed position, stays in place */}
-      <div className="canvas-container" ref={canvasRef}></div>
+      <div className="canvas-container">
+        <Scene />
+      </div>
       
       {/* Z-INDEX 3: Content Layer - Scrolls with page */}
       <div className="content-container" id="intro">
