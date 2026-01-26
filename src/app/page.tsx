@@ -262,6 +262,12 @@ export default function Home() {
             />
           </div>
           <div className="experience-section" id="experience">
+            {/* Z-INDEX 1.6: Vertical Experience text */}
+            {!isMobile && (
+              <div className="experience-text-background">
+                <span className="experience-line">EXPERIENCE</span>
+              </div>
+            )}
             <ExperienceComponent 
               experienceList={experienceList}
             />

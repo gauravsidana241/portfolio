@@ -43,6 +43,35 @@ body, html {
   }
 }
 
+.experience-text-background {
+  position: absolute;
+  right: 0; // Stick to right side
+  top: 0; // Start at top of experience section
+  height: 100%; // Match height of experience section
+  display: flex;
+  align-items: center; // Center vertically within section
+  z-index: 1; // Behind content
+  pointer-events: none;
+
+  .experience-line {
+    font-size: clamp(4rem, 12vw, 11rem);
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.08);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    writing-mode: vertical-rl; // Vertical text
+    transform: rotate(360deg); // Flip it so it reads top to bottom
+    padding-right: 4rem; // Some spacing from the edge
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+
 // Z-INDEX 2: 3D Model Canvas - Fixed in center, TRANSPARENT background
 .canvas-container {
   position: fixed;
@@ -261,6 +290,7 @@ body, html {
   width: 100%;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .techstack-section {
@@ -523,3 +553,4 @@ body, html {
     stroke: rgba(255, 255, 255, 0.6);
   }
 }
+

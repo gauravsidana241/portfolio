@@ -97,8 +97,6 @@ export default function Footer({ email, phone, linkedIn, github, isMobile = fals
             </a>
           )}
         </div>
-        
-        <span className="copyright">© 2026 Gaurav Sidana</span>
       </div>
     </footer>
   )
