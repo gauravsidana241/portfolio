@@ -5,16 +5,16 @@ body, html {
 }
 
 // Z-INDEX 1: Background layer with gradient - FIXED (stays in place)
-.background-gradient {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1f1e1e 50%, #2d3030 100%);
-  pointer-events: none;
-}
+// .background-gradient {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   z-index: 1;
+//   background: linear-gradient(135deg, #0a0a0a 0%, #1f1e1e 50%, #2d3030 100%);
+//   pointer-events: none;
+// }
 
 // Z-INDEX 1.5: Role text - FIXED position, scroll synced via JavaScript
 .role-text-background {
