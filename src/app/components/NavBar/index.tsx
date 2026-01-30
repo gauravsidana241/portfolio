@@ -1,7 +1,7 @@
 "use client"
 
 import './NavBar.scss'
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 interface NavItem {
     label: string;
@@ -16,6 +16,38 @@ type NavBarProps = {
 
 export default function NavBar({ items, isMobile = false }: NavBarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          const scrollDelta = currentScrollY - lastScrollY.current;
+          
+          // Show navbar when scrolling up or at top
+          // Hide when scrolling down past threshold
+          if (currentScrollY < 50) {
+            setIsVisible(true);
+          } else if (scrollDelta > 5) {
+            setIsVisible(false);
+            setIsOpen(false); // Close mobile menu when hiding
+          } else if (scrollDelta < -5) {
+            setIsVisible(true);
+          }
+          
+          lastScrollY.current = currentScrollY;
+          ticking.current = false;
+        });
+        ticking.current = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleItemClick = (action: () => void) => {
     action();
@@ -24,7 +56,7 @@ export default function NavBar({ items, isMobile = false }: NavBarProps) {
 
   if (isMobile) {
     return (
-      <nav className="mobile-navbar">
+      <nav className={`mobile-navbar ${!isVisible ? 'hidden' : ''}`}>
         <button 
           className={`burger-btn ${isOpen ? 'open' : ''}`} 
           onClick={() => setIsOpen(!isOpen)}
@@ -51,7 +83,7 @@ export default function NavBar({ items, isMobile = false }: NavBarProps) {
   }
 
   return (
-    <nav className="glass-navbar">
+    <nav className={`glass-navbar ${!isVisible ? 'hidden' : ''}`}>
       {items.map((item, index) => (
         <button 
           key={index} 

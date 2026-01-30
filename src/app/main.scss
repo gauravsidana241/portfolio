@@ -43,6 +43,35 @@ body, html {
   }
 }
 
+.experience-text-background {
+  position: absolute;
+  right: 0; // Stick to right side
+  top: 0; // Start at top of experience section
+  height: 100%; // Match height of experience section
+  display: flex;
+  align-items: center; // Center vertically within section
+  z-index: 1; // Behind content
+  pointer-events: none;
+
+  .experience-line {
+    font-size: clamp(4rem, 12vw, 11rem);
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.08);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    writing-mode: vertical-rl; // Vertical text
+    transform: rotate(360deg); // Flip it so it reads top to bottom
+    padding-right: 4rem; // Some spacing from the edge
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+
 // Z-INDEX 2: 3D Model Canvas - Fixed in center, TRANSPARENT background
 .canvas-container {
   position: fixed;
@@ -52,7 +81,27 @@ body, html {
   height: 100%;
   z-index: 2;
   background: transparent;
+}
+
+// Z-INDEX 2.5: Blur overlay that fades in after hero section
+.blur-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
   pointer-events: none;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  background: rgba(0, 0, 0, 0);
+  transition: backdrop-filter 0.3s ease-out, -webkit-backdrop-filter 0.3s ease-out, background 0.3s ease-out;
+  
+  &.active {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(0, 0, 0, 0.25);
+  }
 }
 
 // Z-INDEX 3: Content container - scrolls, ABOVE model
@@ -64,6 +113,8 @@ body, html {
   display: flex;
   flex-direction: column;
   align-items: center;
+  pointer-events: auto;
+  
 }
 
 // Hero section - full viewport height
@@ -74,6 +125,7 @@ body, html {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: none;
   
   @media (max-width: 768px) {
     min-height: auto;
@@ -85,11 +137,11 @@ body, html {
 .intro-content {
   position: absolute;
   right: 60px;
-  top: 67%;
+  top: 76%;
   transform: translateY(-50%);
   z-index: 3;
   max-width: 520px; // Slightly wider
-  pointer-events: auto;
+  pointer-events: none; // Enable interactions later
   
   @media (max-width: 1200px) {
     right: 40px;
@@ -185,45 +237,7 @@ body, html {
   }
 }
 
-// ==================
-// SCROLL INDICATOR
-// ==================
 
-.scroll-indicator {
-  position: absolute;
-  bottom: 70px;
-  left: 50%;
-  transform: translateX(-60%);
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  animation: float 2s ease-in-out infinite;
-  
-  .scroll-line {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.3),
-      transparent
-    );
-  }
-  
-  @media (max-width: 768px) {
-    display: none;
-  }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(10px); }
-}
 
 .main-content {
   flex: 1;
@@ -245,6 +259,7 @@ body, html {
   width: 100%;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .techstack-section {
@@ -338,66 +353,95 @@ body, html {
   }
 }
 
-// Mobile intro section
+// New class for the consistent circle with a float animation on hover
+.icon-circle-float {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  @include glass-button; // Your existing mixin
+  transition: transform 0.3s ease, background 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px); // The "float" effect
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
 .intro-mobile {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 20px;
-  padding: 20px;
+  min-height: 65vh; // Full height to create the gap
+  padding: 16px 10px;
   width: 100%;
-  max-width: 340px;
-  
-  h1 {
-    font-size: 1.5rem;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.6);
-    margin: 0;
-    line-height: 1.3;
-    
-    .name-highlight {
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.95);
-      display: block;
-      font-size: 2.2rem;
-      margin-top: 4px;
-      &__red {
-        color: #e74c3c; // Red accent like desktop
+  pointer-events: none; // Default to none so the center is "dead space"
+
+  .greeting-container {
+    pointer-events: auto; // Re-enable for the name
+    width: 20%;
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.5);
+      margin: 0;
+      .name-highlight {
+        display: block;
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: white;
+        line-height: 1.1;
+        &__red { color: #e74c3c; }
       }
     }
   }
-  
-  h2 {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.85);
-    margin: 0;
-    letter-spacing: 0.05em;
+
+  // This spacer is the "Dead Space" that lets clicks pass to the model
+  .flex-spacer {
+    flex-grow: 1;
+    pointer-events: none; 
   }
 
-  .intro-mobile-text {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.6);
-    margin: 0;
-  }
+  // Bottom row: Role and Icons perfectly inline
+  .bottom-anchor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; // Vertical centering for both sides
+    width: 100%;
+    pointer-events: auto; // Re-enable for the buttons
+    border-left: 2px solid #e74c3c;
 
-  .social-links {
-    margin-top: 4px;
-    justify-content: center;
-    gap: 16px;
-  }
-  
-  .social-btn {
-    width: 44px;
-    height: 44px;
-  }
+    .role-container {
+      h2 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0;
+        padding-left: 12px;
+        line-height: 1.2;
+      }
+    }
 
-  .resume-btn {
-    margin-top: 4px;
-    padding: 12px 24px;
-    font-size: 14px;
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); // 2x2 grid for perfect alignment
+      gap: 10px;
+    }
+  }
+}
+
+// Ensure stats are removed to keep the space clean
+@media (max-width: 768px) {
+  .stats-container {
+    display: none !important;
   }
 }
 
@@ -443,5 +487,38 @@ body, html {
     // Same glass styling as other buttons
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+}
+
+.drag-hint-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+  pointer-events: none; // Ensure it doesn't block the blob interaction
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .chevron-top {
+    animation: pulseMove 2s infinite;
+  }
+
+  .chevron-bottom {
+    animation: pulseMove 2s infinite 0.5s; // Delayed for sequential effect
+  }
+}
+
+@keyframes pulseMove {
+  0%, 100% {
+    transform: translateY(0);
+    stroke: rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    transform: translateY(3px);
+    stroke: rgba(255, 255, 255, 0.6);
   }
 }

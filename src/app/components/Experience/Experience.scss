@@ -1,186 +1,324 @@
-// Variables
-$accent-red: #e74c3c;
-$text-white: #ffffff;
-$text-grey: rgba(255, 255, 255, 0.7);
+// ==================
+// EXPERIENCE SECTION LAYOUT
+// ==================
 
-.experience-container {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 60px 0;
-  background: transparent !important;
+.experience-section-wrapper {
   position: relative;
-  font-family: inherit;
-
-  .experience-scroll-wrapper {
-    display: flex;
-    flex-direction: column;
-    /* No gaps between flex items to ensure line continuity */
-    gap: 0; 
-  }
-
-  .experience-section {
-    display: flex;
-    flex-direction: row;
-    /* 'stretch' is CRITICAL here. It makes the timeline-col 
-       equal in height to the content-col, ensuring the line 
-       always spans the full distance. */
-    align-items: stretch; 
-    position: relative;
-  }
-
-  /* --- Timeline Column --- */
-  .timeline-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 30px;
-    min-width: 50px;
-    position: relative;
-
-    .timeline-line {
-      position: absolute;
-      width: 2px;
-      background: rgba(255, 255, 255, 0.15); /* Slightly more visible */
-      z-index: 1;
-      left: 50%;
-      transform: translateX(-50%);
-      
-      /* Span the entire height of the parent timeline-col */
-      top: 0;
-      bottom: 0;
-    }
-
-    .timeline-dot {
-      /* Dot sits on top of the line */
-      margin-top: 18px; /* Push dot down to align with Title text cap-height */
-      width: 16px;
-      height: 16px;
-      background-color: $accent-red;
-      border-radius: 50%;
-      z-index: 2;
-      box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.2);
-      flex-shrink: 0;
-    }
-  }
-
-  /* --- Handling Start/End Logic --- */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px 40px;
   
-  /* First Item: Line starts AT the dot */
-  .experience-section:first-child .timeline-line {
-    top: 26px; /* 18px (margin-top) + 8px (half dot height) */
+  @media (max-width: 768px) {
+    padding: 60px 20px;
   }
+}
 
-  /* Last Item: Line ends AT the dot */
-  .experience-section:last-child .timeline-line {
-    bottom: auto; /* Allow height to be explicit */
-    height: 26px; /* 18px (margin-top) + 8px (half dot height) */
-    /* This creates the "stop" effect */
+// ==================
+// SECTION NUMBER - Next to content
+// ==================
+.experience-section__number {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  flex-shrink: 0;
+  
+  &--left {
+    margin-right: 40px;
+    order: 0;
+    
+    @media (max-width: 1200px) {
+      margin-right: 24px;
+    }
+    
+    @media (max-width: 900px) {
+      margin-right: 16px;
+    }
   }
-
-  /* --- Content Column --- */
-  .content-col {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    /* Padding is used for spacing instead of margin to preserve container height */
-    padding-bottom: 60px; 
-
-    .role-title {
-      font-size: 2.5rem;
-      color: $text-white;
-      font-weight: 700;
-      line-height: 1.2;
-      margin: 0 0 8px 0;
-      letter-spacing: -0.02em;
+  
+  &--right {
+    margin-left: 40px;
+    order: 2;
+    
+    @media (max-width: 1200px) {
+      margin-left: 24px;
     }
-
-    .company-info {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 1.5rem;
-      font-family: monospace;
-      font-size: 1.1rem;
-
-      .company-name {
-        color: $accent-red;
-        font-weight: 700;
-        text-decoration: none;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-
-      .duration {
-        color: rgba(255, 255, 255, 0.5);
-      }
-    }
-
-    .description-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      max-width: 900px;
-
-      li {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        margin-bottom: 12px;
-        color: $text-grey;
-        font-size: 1.1rem;
-        line-height: 1.6;
-        font-weight: 400;
-
-        &::before {
-          content: '•';
-          color: rgba(255, 255, 255, 0.3);
-          font-weight: bold;
-          flex-shrink: 0;
-          margin-top: -1px;
-        }
-      }
+    
+    @media (max-width: 900px) {
+      margin-left: 16px;
     }
   }
 }
 
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-  .experience-container {
-    padding: 30px 20px;
+.experience-section__number-text {
+  font-family: 'TallSkinny', 'Courier New', monospace;
+  font-size: clamp(10rem, 18vw, 16rem);
+  font-weight: normal;
+  line-height: 0.7;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: -0.02em;
+  user-select: none;
+  transform: scaleY(1.4);
+  transform-origin: top;
+}
+
+// ==================
+// MAIN CONTENT
+// ==================
+.experience-section__content {
+  width: 100%;
+  max-width: 680px;
+  min-width: 0; // Prevent flex shrinking issues
+  flex: 0 0 680px; // Fixed width, don't grow or shrink
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  order: 1;
+  
+  @media (max-width: 900px) {
+    flex: 1 1 auto;
+    max-width: 680px;
+  }
+  
+  @media (max-width: 768px) {
+    gap: 28px;
+    max-width: 100%;
+  }
+}
+
+// ==================
+// HEADER
+// ==================
+.experience__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.experience__title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.experience__title-number {
+  font-family: 'TallSkinny', 'Courier New', monospace;
+  font-size: 4rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: -0.01em;
+  transform: scaleY(1.3);
+}
+
+// ==================
+// FILTER TABS - Text only with underline
+// ==================
+.experience__tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.experience__tabs-list {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  
+  @media (max-width: 480px) {
+    gap: 20px;
+  }
+}
+
+.experience__tab {
+  font-family: 'Metropolis', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  padding: 0 0 12px 0;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease;
+  
+  // Underline indicator
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #e74c3c;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  
+  &:hover {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  &--active {
+    color: rgba(255, 255, 255, 0.9);
     
-    .timeline-col {
-      margin-right: 15px;
-      min-width: 30px;
-      
-      .timeline-dot {
-        margin-top: 12px; /* Adjust for smaller title */
-        width: 12px;
-        height: 12px;
-      }
+    &::after {
+      transform: scaleX(1);
     }
-
-    /* Adjust First/Last for mobile dot position */
-    .experience-section:first-child .timeline-line {
-      top: 18px; /* 12px + 6px */
-    }
-    .experience-section:last-child .timeline-line {
-      height: 18px;
-    }
-
-    .content-col {
-      padding-bottom: 40px;
-      
-      .role-title {
-        font-size: 1.8rem;
-      }
-      
-      .company-info {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-      }
+    
+    &:hover {
+      color: rgba(255, 255, 255, 0.9);
     }
   }
+  
+  @media (max-width: 480px) {
+    font-size: 13px;
+    padding-bottom: 10px;
+  }
+}
+
+.experience__tabs-line {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+// ==================
+// EXPERIENCE LIST
+// ==================
+.experience__list {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  
+  @media (max-width: 768px) {
+    gap: 40px;
+  }
+}
+
+.experience__item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  @media (max-width: 768px) {
+    padding-bottom: 40px;
+  }
+}
+
+// ==================
+// EXPERIENCE ITEM CONTENT
+// ==================
+.experience__role {
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.experience__meta {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.experience__company {
+  font-family: 'Metropolis', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #e74c3c;
+  text-decoration: none;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+    opacity: 1;
+  }
+}
+
+.experience__duration {
+  font-family: 'Metropolis', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.experience__description {
+  list-style: none;
+  margin: 8px 0 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  
+  li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.65);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #e74c3c;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 14px;
+      line-height: 1.65;
+    }
+  }
+}
+
+.experience__empty {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+  margin: 0;
+}
+
+// ==================
+// NUMBER RIGHT VARIANT
+// ==================
+.experience-section-wrapper--number-right {
+  // Content already handled by order property
 }

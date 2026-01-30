@@ -1,5 +1,7 @@
+"use client"
+
 import './Experience.scss'
-import React from 'react'
+import React, { useState, useMemo } from 'react'
 
 export interface ExperienceItem {
   position: string;
@@ -11,55 +13,104 @@ export interface ExperienceItem {
 }
 
 type ExperienceProps = {
-  children?: React.ReactNode;
   experienceList: ExperienceItem[];
+  isMobile?: boolean;
+  sectionNumber?: string;
+  numberPosition?: 'left' | 'right';
 }
 
 export default function ExperienceComponent({
   experienceList,
-  children,
+  isMobile = false,
+  sectionNumber = '02',
+  numberPosition = 'right',
 }: ExperienceProps) {
   
+  // Extract unique start years from experience list
+  const years = useMemo(() => {
+    const uniqueYears = [...new Set(
+      experienceList.map(exp => {
+        // Extract year from startDate (e.g., "Sept 2025" -> "2025")
+        const match = exp.startDate.match(/\d{4}/);
+        return match ? match[0] : '';
+      }).filter(Boolean)
+    )].sort((a, b) => parseInt(b) - parseInt(a)); // Sort descending (newest first)
+    
+    return uniqueYears;
+  }, [experienceList]);
+  
+  // Default to the latest year (first in sorted array)
+  const [activeFilter, setActiveFilter] = useState<string>(years[0] || '');
+  
+  const filteredExperience = experienceList.filter(exp => exp.startDate.includes(activeFilter));
+
   return (
-    <div className="experience-container">
-      <div className="experience-scroll-wrapper">
-        {experienceList.map((exp, index) => (
-          <div className="experience-section" key={index}>
-            
-            {/* Left Timeline */}
-            <div className="timeline-col">
-              <div className="timeline-dot"></div>
-              {/* Only show line if it's not the last item, or show fade out */}
-              <div className="timeline-line"></div>
-            </div>
-            
-            {/* Right Content Card */}
-            <div className="content-col">
-              <h2 className="role-title">{exp.position}</h2>
+    <div className={`experience-section-wrapper ${numberPosition === 'right' ? 'experience-section-wrapper--number-right' : ''}`}>
+      {/* Section Number - Desktop only */}
+      {!isMobile && (
+        <div className={`experience-section__number experience-section__number--${numberPosition}`}>
+          <span className="experience-section__number-text">{sectionNumber}</span>
+        </div>
+      )}
+      
+      {/* Main Content */}
+      <div className="experience-section__content">
+        {/* Header with Title and Mobile Number */}
+        <div className="experience__header">
+          <h1 className="experience__title">Where I've Worked</h1>
+          {isMobile && (
+            <span className="experience__title-number">{sectionNumber}</span>
+          )}
+        </div>
+        
+        {/* Filter Tabs - Text only with underline */}
+        <div className="experience__tabs">
+          <div className="experience__tabs-list">
+            {years.map((year) => (
+              <button
+                key={year}
+                className={`experience__tab ${activeFilter === year ? 'experience__tab--active' : ''}`}
+                onClick={() => setActiveFilter(year)}
+              >
+                {year}
+              </button>
+            ))}
+          </div>
+          <div className="experience__tabs-line"></div>
+        </div>
+        
+        {/* Experience Items */}
+        <div className="experience__list">
+          {filteredExperience.map((exp, index) => (
+            <div className="experience__item" key={index}>
+              <h2 className="experience__role">{exp.position}</h2>
               
-              <div className="company-info">
+              <div className="experience__meta">
                 <a 
                   href={exp.companyLink || '#'} 
-                  className="company-name"
+                  className="experience__company"
                   target="_blank" 
                   rel="noreferrer"
                 >
                   {exp.company}
                 </a>
-                <span className="duration">
-                  {exp.startDate} – {exp.endDate || 'Current'}
+                <span className="experience__duration">
+                  {exp.startDate} – {exp.endDate || 'Present'}
                 </span>
               </div>
 
-              <ul className="description-list">
+              <ul className="experience__description">
                 {exp.description.map((point, i) => (
                   <li key={i}>{point}</li>
                 ))}
               </ul>
             </div>
-          </div>
-        ))}
-        {children}
+          ))}
+          
+          {filteredExperience.length === 0 && (
+            <p className="experience__empty">No experience for {activeFilter}.</p>
+          )}
+        </div>
       </div>
     </div>
   )
