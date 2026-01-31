@@ -11,10 +11,6 @@ export default function Loader({ isLoading }: LoaderProps) {
   return (
     <div className={`loader ${!isLoading ? 'loader--hidden' : ''}`}>
       <div className="loader__content">
-        <div className="loader__logo">
-          <span className="loader__letter">G</span>
-          <span className="loader__letter">S</span>
-        </div>
         <div className="loader__bar">
           <div className="loader__progress"></div>
         </div>
