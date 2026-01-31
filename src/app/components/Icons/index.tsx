@@ -34,15 +34,12 @@ export const MailIcon = ({ size = 22, className = "" }: IconProps) => (
     width={size} 
     height={size} 
     viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
+    fill="currentColor" 
     className={className}
+    style={{ display: 'block' }} // Removes any baseline inline padding
   >
-    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-    <polyline points="22,6 12,13 2,6" />
+    {/* Path adjusted to touch 0 and 24 boundaries */}
+    <path d="M0 4.5C0 3.67.67 3 1.5 3h21c.83 0 1.5.67 1.5 1.5v.71l-12 7-12-7V4.5zM0 8.96v10.54C0 20.33.67 21 1.5 21h21c.83 0 1.5-.67 1.5-1.5V8.96l-11.2 6.53a1.5 1.5 0 01-1.6 0L0 8.96z"/>
   </svg>
 );
 

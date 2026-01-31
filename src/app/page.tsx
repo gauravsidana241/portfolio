@@ -37,7 +37,7 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const heroHeight = window.innerHeight * 0.85;
+      const heroHeight = window.innerHeight * 0.50; // 50% of viewport height
       
       if (roleTextRef.current) {
         roleTextRef.current.style.transform = `translateY(-${scrollY}px)`;
@@ -148,12 +148,11 @@ export default function Home() {
       <div className="background-gradient"></div>
       
       {/* Z-INDEX 1.5: Role text */}
-      {!isMobile && (
-        <div className="role-text-background" ref={roleTextRef}>
-          <span className="role-line">FULL STACK</span>
-          <span className="role-line">DEVELOPER</span>
-        </div>
-      )}
+      <div className="role-text-background" ref={roleTextRef}>
+        <span className="role-line">FULL STACK</span>
+        <span className="role-line">DEVELOPER</span>
+        {/* <span className="role-line-tall">2026</span> */}
+      </div>
       
       {/* Z-INDEX 2: 3D Model Canvas */}
       <div className="canvas-container">
@@ -181,32 +180,31 @@ export default function Home() {
           <div className="intro-content">
             {isMobile ? (
               <div className="intro-mobile">
-                <div className="greeting-container">
-                  <h1>
-                    Hi, I am 
-                    <span className="name-highlight">
-                      Gaurav <span className="name-highlight__red">Sidana</span>
-                    </span>
-                  </h1>
-                </div>
-                <div className="flex-spacer" />
                 <div className="bottom-anchor">
-                  <div className="role-container">
-                    <h2>Full Stack<br/>Developer</h2>
-                  </div>
-                  <div className="icon-grid">
-                    <a href="https://www.linkedin.com/in/gaurav-sidana-7a5118242" className="icon-circle-float">
-                      <LinkedinIcon size={18} />
-                    </a>
-                    <a href="https://github.com/gauravsidana241" className="icon-circle-float">
-                      <GithubIcon size={18} />
-                    </a>
-                    <button className="icon-circle-float" onClick={handleDownloadResume}>
-                      CV
-                    </button>
-                    <a href="mailto:gauravsidana241@gmail.com" className="icon-circle-float">
-                      <MailIcon size={18} />
-                    </a>
+                  <div className="greeting-container">
+                    <h1>
+                      Hi, I am 
+                      <span className="name-highlight">
+                        Gaurav <span className="name-highlight__red">Sidana</span>
+                      </span>
+                    </h1>
+                    <p className="intro-brief">
+                      Software engineer focused on building exceptional digital experiences; currently pursuing a Master's 
+                      at Glasgow to combine backend expertise with AI innovation.
+                    </p>
+                    <div className="social-links">
+                      <a href="https://www.linkedin.com/in/gaurav-sidana-7a5118242" target="_blank" rel="noopener noreferrer" className="social-btn">
+                        <LinkedinIcon size={20} />
+                      </a>
+                      <a href="https://github.com/gauravsidana241" target="_blank" rel="noopener noreferrer" className="social-btn">
+                        <GithubIcon size={20} />
+                      </a>
+                      <GlassButton 
+                        text="Download CV" 
+                        icon={<DownloadIcon size={16} />} 
+                        onClick={handleDownloadResume}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -219,7 +217,8 @@ export default function Home() {
                       Gaurav <span className="name-highlight">Sidana</span>
                     </h1>
                     <p className="intro-brief">
-                      Full Stack Developer with 2+ years of experience engineering scalable backend solutions and web applications. Currently pursuing a Master's in CS at Glasgow, I focus on optimizing distributed pipelines and building high-impact software at scale.
+                      Software engineer focused on building exceptional digital experiences; currently pursuing a Master's 
+                      at Glasgow to combine backend expertise with AI innovation.
                     </p>
                     <div className="social-links">
                       <a href="https://www.linkedin.com/in/gaurav-sidana-7a5118242" target="_blank" rel="noopener noreferrer" className="social-btn">
@@ -244,7 +243,7 @@ export default function Home() {
         <div className="main-content">
           {/* About Section */}
           <Reveal>
-            <div className="about-section" id="about">
+            <div className="my-about-section" id="about">
               <About isMobile={isMobile} sectionNumber="01" numberPosition="left" />
             </div>
           </Reveal>
@@ -297,5 +296,3 @@ export default function Home() {
     </>
   );
 }
-
-//end

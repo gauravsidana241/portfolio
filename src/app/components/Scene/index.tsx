@@ -37,6 +37,7 @@ function SceneContent({ isMobile, onReady }: SceneProps) {
 
     // Passive floating animation
     if (sphere.current) {
+      // const baseY = isMobile ? 0.7 : 0
       sphere.current.position.y = Math.sin(state.clock.elapsedTime / 1.5) / 6
     }
   })

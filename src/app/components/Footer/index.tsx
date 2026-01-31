@@ -37,13 +37,6 @@ export default function Footer({
         >
           <LinkedinIcon size={20} />
         </a>
-        <a 
-          href={`mailto:${email}`}
-          className="footer__social-link"
-          aria-label="Email"
-        >
-          <MailIcon size={20} />
-        </a>
       </div>
       
       {/* Credit Line */}

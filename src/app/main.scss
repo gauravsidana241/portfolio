@@ -19,30 +19,52 @@ body, html {
 // Z-INDEX 1.5: Role text - FIXED position, scroll synced via JavaScript
 .role-text-background {
   position: fixed;
-  top: 100px; // Below navbar
+  top: 100px;
   left: 40px;
-  z-index: 1; // Behind canvas (z-index 2), so behind the model
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+  z-index: 1;
   pointer-events: none;
-  will-change: transform; // Optimize for transform animations
-  
+  will-change: transform;
+
   .role-line {
-    font-size: clamp(4rem, 15vw, 14rem);
+    display: block;
+    font-size: clamp(3rem, 11vw, 14rem);
     font-weight: 700;
     color: rgba(255, 255, 255, 0.08);
-    line-height: 0.9;
+    line-height: 1;
     letter-spacing: -0.02em;
     text-transform: uppercase;
-    white-space: nowrap;
+    margin: 0;
+    padding: 0;
   }
-  
+
+  .role-line-tall {
+    display: block;
+    font-family: 'TallSkinny', 'Arial Narrow', sans-serif;
+    font-size: clamp(8rem, 25vw, 22rem);
+    font-weight: 550;
+    color: rgba(255, 255, 255, 0.08);
+    line-height: 1;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0 0 0 3px;
+    margin-top: -0.05em; // Subtle overlap
+  }
+
   @media (max-width: 768px) {
-    display: none;
+    left: 20px;
+    top: 80px;
+
+    .role-line {
+      font-size: clamp(2.5rem, 14vw, 5rem);
+      line-height: 1;
+    }
+
+    .role-line-tall {
+      font-size: clamp(5rem, 40vw, 12rem);
+      line-height: 1;
+    }
   }
 }
-
 .experience-text-background {
   position: absolute;
   right: 0; // Stick to right side
@@ -252,7 +274,12 @@ body, html {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 40px 0;
+}
+
+.my-about-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .experience-section {
@@ -378,63 +405,56 @@ body, html {
 .intro-mobile {
   display: flex;
   flex-direction: column;
-  min-height: 65vh; // Full height to create the gap
+  min-height: 65vh;
   padding: 16px 10px;
   width: 100%;
-  pointer-events: none; // Default to none so the center is "dead space"
 
-  .greeting-container {
-    pointer-events: auto; // Re-enable for the name
-    width: 20%;
-    h1 {
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: rgba(255, 255, 255, 0.5);
-      margin: 0;
-      .name-highlight {
-        display: block;
-        font-size: 2.8rem;
-        font-weight: 700;
-        color: white;
-        line-height: 1.1;
-        &__red { color: #e74c3c; }
-      }
-    }
-  }
-
-  // This spacer is the "Dead Space" that lets clicks pass to the model
-  .flex-spacer {
-    flex-grow: 1;
-    pointer-events: none; 
-  }
-
-  // Bottom row: Role and Icons perfectly inline
   .bottom-anchor {
+    position: absolute;
     display: flex;
-    justify-content: space-between;
-    align-items: center; // Vertical centering for both sides
-    width: 100%;
-    pointer-events: auto; // Re-enable for the buttons
-    border-left: 2px solid #e74c3c;
+    justify-content: flex-end;
+    padding: 0 20px;
+    pointer-events: auto; 
+    left: 0;
+    right: 0;
+    bottom: 0;
 
-    .role-container {
-      h2 {
-        font-size: 1.2rem;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.9);
-        margin: 0;
-        padding-left: 12px;
-        line-height: 1.2;
-      }
+    .greeting-container {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-end;
+  
+  h1 {
+    text-align: right;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    
+    .name-highlight {
+      display: block;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: white;
+      line-height: 1.1;
+      &__red { color: #e74c3c; }
     }
+  }
+  
+  p {
+    text-align: right;
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 8px 0 0 0;
+    max-width: 460px;
+  }
 
-    .icon-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr); // 2x2 grid for perfect alignment
-      gap: 10px;
-    }
+  .social-links {
+    margin-top: 20px;
+    justify-content: flex-end;
+  }
+}
   }
 }
 
