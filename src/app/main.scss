@@ -24,6 +24,9 @@ body, html {
   z-index: 1;
   pointer-events: none;
   will-change: transform;
+  transform: translateY(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 
   .role-line {
     display: block;

@@ -34,21 +34,34 @@ export default function Home() {
   }, []);
 
   // Scroll sync for role text AND blur overlay activation
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const heroHeight = window.innerHeight * 0.50; // 50% of viewport height
-      
-      if (roleTextRef.current) {
-        roleTextRef.current.style.transform = `translateY(-${scrollY}px)`;
-      }
-      
-      setBlurActive(scrollY > heroHeight);
-    };
+  // Scroll sync for role text AND blur overlay activation
+useEffect(() => {
+  let ticking = false;
+  
+  const handleScroll = () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        const heroHeight = window.innerHeight * 0.50;
+        
+        if (roleTextRef.current) {
+          roleTextRef.current.style.transform = `translateY(${-scrollY}px)`;
+        }
+        
+        setBlurActive(scrollY > heroHeight);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  
+  // Set initial position
+  handleScroll();
+  
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
 
   // Callback when mesh/scene is ready
   const handleSceneReady = () => {
