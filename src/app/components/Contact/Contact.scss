@@ -39,14 +39,15 @@
   display: flex;
   align-items: flex-start;
   flex-shrink: 0;
-  margin-right: 40px;
+  margin-left: 40px;
+  order: 1; // Places the number after the content in flex order
   
   @media (max-width: 1200px) {
-    margin-right: 24px;
+    margin-left: 24px;
   }
   
   @media (max-width: 900px) {
-    margin-right: 16px;
+    margin-left: 16px;
   }
 }
 
@@ -72,6 +73,7 @@
   text-align: center;
   max-width: 600px;
   gap: 20px;
+  order: 0; // Ensures content comes before the number visually
 }
 
 // ==================
@@ -132,4 +134,3 @@
     font-size: 15px;
   }
 }
-

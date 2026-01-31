@@ -76,11 +76,8 @@ useEffect(() => {
     if (element) element.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleDownloadResume = () => {
-    const link = document.createElement('a');
-    link.href = '/resumes/resume.pdf';
-    link.download = 'Gaurav_Sidana_Resume.pdf';
-    link.click();
+  const handleViewResume = () => {
+    window.open('/resumes/resume.pdf', '_blank');
   };
 
   const projects = [
@@ -213,9 +210,8 @@ useEffect(() => {
                         <GithubIcon size={20} />
                       </a>
                       <GlassButton 
-                        text="Download CV" 
-                        icon={<DownloadIcon size={16} />} 
-                        onClick={handleDownloadResume}
+                        text="Resume" 
+                        onClick={handleViewResume}
                       />
                     </div>
                   </div>
@@ -241,9 +237,8 @@ useEffect(() => {
                         <GithubIcon size={22} />
                       </a>
                       <GlassButton 
-                        text="Download CV" 
-                        icon={<DownloadIcon size={18} />} 
-                        onClick={handleDownloadResume}
+                        text="Resume" 
+                        onClick={handleViewResume}
                       />
                     </div>
                   </div>
