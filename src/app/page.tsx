@@ -82,6 +82,14 @@ useEffect(() => {
 
   const projects = [
     {
+      "id": 1,
+      "title": "FormHook Delivery System",
+      "description": "Fault-tolerant webhook infrastructure featuring distributed job queues, exponential backoff retries, and real-time failure simulation.",
+      "techStack": ["Next.js 16", "TypeScript", "BullMQ", "Redis", "Node.js"],
+      "demoUrl": "https://formhook.vercel.app/",
+      "repoUrl": "https://github.com/gauravsidana241/formhook"
+    },
+    {
       "id": 4,
       "title": "Snake AI Agent",
       "description": "Autonomous game-playing agent using Deep Q-Learning (Reinforcement Learning) with CNN-based state representation to achieve optimal survival strategies.",
@@ -94,14 +102,6 @@ useEffect(() => {
       "description": "AI system built using CNN architectures to identify human emotions from audio. Features a case study comparing various tested methods and model architectures for optimal accuracy.",
       "techStack": ["Python", "PyTorch", "Librosa"],
       "repoUrl": "https://github.com/gauravsidana241/speech-emotion-detection"
-    },
-    {
-      "id": 1,
-      "title": "FormHook Delivery System",
-      "description": "Fault-tolerant webhook infrastructure featuring distributed job queues, exponential backoff retries, and real-time failure simulation.",
-      "techStack": ["Next.js 16", "TypeScript", "BullMQ", "Redis", "Node.js"],
-      "demoUrl": "https://formhook.vercel.app/",
-      "repoUrl": "https://github.com/gauravsidana241/formhook"
     },
     {
       "id": 2,
