@@ -82,6 +82,20 @@ useEffect(() => {
 
   const projects = [
     {
+      "id": 4,
+      "title": "Snake AI Agent",
+      "description": "Autonomous game-playing agent using Deep Q-Learning (Reinforcement Learning) with CNN-based state representation to achieve optimal survival strategies.",
+      "techStack": ["Python", "PyTorch", "Pygame", "NumPy"],
+      "repoUrl": "https://github.com/gauravsidana241/snake-ai-cnn"
+    },
+    {
+      "id": 5,
+      "title": "Speech Emotion Recognition",
+      "description": "AI system built using CNN architectures to identify human emotions from audio. Features a case study comparing various tested methods and model architectures for optimal accuracy.",
+      "techStack": ["Python", "PyTorch", "Librosa"],
+      "repoUrl": "https://github.com/gauravsidana241/speech-emotion-detection"
+    },
+    {
       "id": 1,
       "title": "FormHook Delivery System",
       "description": "Fault-tolerant webhook infrastructure featuring distributed job queues, exponential backoff retries, and real-time failure simulation.",
@@ -101,6 +115,13 @@ useEffect(() => {
       "title": "Virtual Programming Lab",
       "description": "Interactive online coding environment with multi-tier user management designed to streamline workflows for students and instructors.",
       "techStack": ["JavaScript", "PHP", "CSS"],
+    },
+    {
+      "id": 7,
+      "title": "Retail Inventory Manager",
+      "description": "Product inventory system designed for e-commerce and retail platforms. Implements core CRUD operations via a single-page application and custom RESTful APIs.",
+      "techStack": ["React", "Node.js", "Express.js", "MongoDB", "Bootstrap"],
+      "repoUrl": "https://github.com/gauravsidana241/Fynd-Products-App"
     }
   ]
 
