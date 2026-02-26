@@ -101,6 +101,7 @@ useEffect(() => {
       "title": "Speech Emotion Recognition",
       "description": "AI system built using CNN architectures to identify human emotions from audio. Features a case study comparing various tested methods and model architectures for optimal accuracy.",
       "techStack": ["Python", "PyTorch", "Librosa"],
+      "demoUrl": "https://speech-emotion-detection.vercel.app/",
       "repoUrl": "https://github.com/gauravsidana241/speech-emotion-detection"
     },
     {
