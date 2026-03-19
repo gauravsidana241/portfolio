@@ -118,6 +118,14 @@ useEffect(() => {
       "techStack": ["JavaScript", "PHP", "CSS"],
     },
     {
+      "id": 6,
+      "title": "Emoji Password Authentication",
+      "description": "Full-stack authentication system proposing emoji-based passwords as an alternative credential mechanism. Features a NoSQL MongoDB Atlas backend, deployed via a CI/CD pipeline on Render with a Next.js frontend.",
+      "techStack": ["Next.js", "React", "MongoDB Atlas", "Render", "Node.js"],
+      "demoUrl": "https://emoji-password.vercel.app/",
+      "repoUrl": "https://github.com/gauravsidana241/emoji-password"
+    },
+    {
       "id": 7,
       "title": "Retail Inventory Manager",
       "description": "Product inventory system designed for e-commerce and retail platforms. Implements core CRUD operations via a single-page application and custom RESTful APIs.",
