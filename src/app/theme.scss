@@ -6,9 +6,6 @@
 // Dark is the default (declared on :root) so the site still renders
 // correctly if JS is disabled and no data-theme attribute is set.
 // next-themes writes data-theme="light" | "dark" onto <html>.
-//
-// RULE: never write a literal colour in a component .scss file.
-//       If you need a colour that isn't here, add a token here first.
 // ==================================================================
 
 :root,
