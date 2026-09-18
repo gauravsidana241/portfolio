@@ -1,27 +1,29 @@
 .glass-navbar {
-  position: fixed;  // Changed from sticky
+  position: fixed;
   top: 24px;
   left: 50%;
-  transform: translateX(-50%);  // Center horizontally
+  transform: translateX(-50%);
   z-index: 100;
-  
+
   pointer-events: auto;
   padding: 8px 18px;
   display: flex;
+  align-items: center;
   gap: 8px;
-  
-  background: rgba(255, 255, 255, 0.06);
+
+  background: var(--color-glass-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-border);
   border-radius: 50px;
-  
-  box-shadow: 
-    0 4px 24px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  
+
+  box-shadow:
+    0 4px 24px var(--color-shadow-soft),
+    inset 0 1px 0 var(--color-glass-highlight);
+
+  transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease,
+    border-color 0.3s ease;
+
   &.hidden {
     transform: translateX(-50%) translateY(-100%);
     opacity: 0;
@@ -29,19 +31,28 @@
   }
 }
 
+// Thin rule separating the nav links from the theme toggle
+.glass-navbar__divider {
+  width: 1px;
+  align-self: stretch;
+  margin: 4px 4px;
+  background: var(--color-border);
+}
+
 .nav-btn {
   position: relative;
   overflow: hidden;
   background: transparent;
   border: 1px solid transparent;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-secondary);
   padding: 10px 20px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   border-radius: 25px;
-  transition: all 0.3s ease;
-  
+  transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease,
+    box-shadow 0.3s ease;
+
   &::before {
     content: '';
     position: absolute;
@@ -52,30 +63,35 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(255, 255, 255, 0.3) 50%,
+      var(--color-glass-sheen) 50%,
       transparent 100%
     );
     transition: none;
   }
-  
+
   &:hover {
-    color: rgba(255, 255, 255, 0.95);
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 
-      0 2px 12px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    color: var(--color-text-primary);
+    background: var(--color-glass-bg-hover);
+    border: 1px solid var(--color-border-strong);
+    box-shadow:
+      0 2px 12px var(--color-shadow-subtle),
+      inset 0 1px 0 var(--color-glass-highlight);
   }
-  
+
   &:active {
     transform: scale(0.97);
   }
 
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
   &.highlight {
-    color: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.05);
-    
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-surface);
+
     .shine {
       position: absolute;
       top: 0;
@@ -85,12 +101,12 @@
       background: linear-gradient(
         90deg,
         transparent 0%,
-        rgba(255, 255, 255, 0.2) 50%,
+        var(--color-glass-sheen) 50%,
         transparent 100%
       );
       animation: shine 2.5s ease-in-out infinite;
     }
-    
+
     &:hover {
       &::before {
         animation: shine-once 0.5s ease forwards;
@@ -127,10 +143,13 @@
   right: 16px;
   z-index: 100;
   pointer-events: auto;
-  
-  // Add transition for mobile too
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
   transition: transform 0.3s ease, opacity 0.3s ease;
-  
+
   &.hidden {
     transform: translateY(-100%);
     opacity: 0;
@@ -146,48 +165,53 @@
   justify-content: center;
   align-items: center;
   gap: 6px;
-  
-  background: rgba(255, 255, 255, 0.08);
+
+  background: var(--color-glass-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
-  
+
   cursor: pointer;
-  transition: all 0.3s ease;
-  
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+
   &:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 
-      0 4px 16px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    background: var(--color-glass-bg-hover);
+    border-color: var(--color-border-strong-hover);
+    box-shadow:
+      0 4px 16px var(--color-shadow-soft),
+      inset 0 1px 0 var(--color-glass-highlight);
   }
-  
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
   .burger-line {
     width: 22px;
     height: 2px;
-    background: rgba(255, 255, 255, 0.7);
+    background: var(--color-text-secondary);
     border-radius: 2px;
     transition: all 0.3s ease;
   }
-  
+
   &.open {
-    background: rgba(255, 255, 255, 0.12);
-    
+    background: var(--color-glass-bg-hover);
+
     .burger-line {
-      background: rgba(255, 255, 255, 0.9);
+      background: var(--color-text-primary);
     }
-    
+
     .burger-line:nth-child(1) {
       transform: translateY(8px) rotate(45deg);
     }
-    
+
     .burger-line:nth-child(2) {
       opacity: 0;
       transform: scaleX(0);
     }
-    
+
     .burger-line:nth-child(3) {
       transform: translateY(-8px) rotate(-45deg);
     }
@@ -199,25 +223,25 @@
   top: 56px;
   right: 0;
   min-width: 180px;
-  
-  background: rgba(255, 255, 255, 0.08);
+
+  background: var(--color-glass-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-border);
   border-radius: 16px;
-  
+
   padding: 8px;
   pointer-events: auto;
-  
+
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px) scale(0.95);
   transition: all 0.3s ease;
-  
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  
+
+  box-shadow:
+    0 8px 32px var(--color-shadow),
+    inset 0 1px 0 var(--color-glass-highlight);
+
   &.open {
     opacity: 1;
     visibility: visible;
@@ -229,31 +253,52 @@
   display: block;
   width: 100%;
   padding: 14px 16px;
-  
+
   background-color: transparent;
   border: 1px solid transparent;
   border-radius: 10px;
-  
+
   font-size: 15px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-secondary);
   text-align: left;
-  
+
   cursor: pointer;
   pointer-events: auto;
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+  -webkit-tap-highlight-color: var(--color-tap-highlight);
   transition: all 0.2s ease;
-  
+
   &:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.95);
+    background-color: var(--color-glass-bg);
+    border-color: var(--color-border);
+    color: var(--color-text-primary);
     padding-left: 20px;
   }
-  
+
   &:active {
-    background-color: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
+    background-color: var(--color-glass-bg-hover);
+    border-color: var(--color-border-strong);
+    color: var(--color-text-emphasis);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -2px;
+  }
+}
+
+// Theme toggle sits inside the mobile menu, below the links
+.mobile-menu__theme {
+  display: flex;
+  justify-content: center;
+  padding: 10px 4px 4px;
+  margin-top: 6px;
+  border-top: 1px solid var(--color-border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-btn.highlight .shine {
+    animation: none;
+    opacity: 0;
   }
 }

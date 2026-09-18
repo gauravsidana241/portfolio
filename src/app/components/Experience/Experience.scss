@@ -1,8 +1,11 @@
 // ==================
 // EXPERIENCE SECTION LAYOUT
 // ==================
+// NOTE: `$accent: #e74c3c` used to be declared here as a Sass variable.
+// Sass variables are resolved at BUILD time, so they can never respond to a
+// runtime theme switch. It's now var(--color-accent). $rail-width stays a Sass
+// variable because it's a layout value, not a colour.
 
-$accent: #e74c3c;
 $rail-width: 116px;
 
 .experience-section-wrapper {
@@ -59,7 +62,7 @@ $rail-width: 116px;
   font-size: clamp(10rem, 18vw, 16rem);
   font-weight: normal;
   line-height: 0.7;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text-faint);
   letter-spacing: -0.02em;
   user-select: none;
   transform: scaleY(1.4);
@@ -103,7 +106,7 @@ $rail-width: 116px;
 .experience__title {
   font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--color-text-primary);
   margin: 0;
   letter-spacing: -0.01em;
 }
@@ -112,7 +115,7 @@ $rail-width: 116px;
   font-family: 'TallSkinny', 'Courier New', monospace;
   font-size: 4rem;
   line-height: 1;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text-faint);
   letter-spacing: -0.01em;
   transform: scaleY(1.3);
 }
@@ -144,7 +147,7 @@ $rail-width: 116px;
     position: absolute;
     inset: 0;
     border-radius: 4px;
-    background: rgba(255, 255, 255, 0.035);
+    background: var(--color-hover-wash);
     opacity: 0;
     transition: opacity 0.35s ease;
     pointer-events: none;
@@ -178,7 +181,7 @@ $rail-width: 116px;
     top: 20px;
     bottom: -28px;
     width: 1px;
-    background: rgba(255, 255, 255, 0.09);
+    background: var(--color-border);
   }
 
   .experience__item:last-child &::before {
@@ -202,16 +205,16 @@ $rail-width: 116px;
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid var(--color-node-border);
   background: transparent;
   transition: background-color 0.3s ease, border-color 0.3s ease,
               box-shadow 0.3s ease;
 
   .experience__item:hover &,
   .experience__item:focus-within & {
-    background: $accent;
-    border-color: $accent;
-    box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.14);
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 4px var(--color-accent-glow);
   }
 
   @media (max-width: 768px) {
@@ -227,12 +230,12 @@ $rail-width: 116px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--color-text-muted);
   transition: color 0.3s ease;
 
   .experience__item:hover &,
   .experience__item:focus-within & {
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--color-text-secondary);
   }
 }
 
@@ -251,7 +254,7 @@ $rail-width: 116px;
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: -0.005em;
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--color-text-primary);
   margin: 0;
 }
 
@@ -272,7 +275,7 @@ $rail-width: 116px;
     outline: none;
 
     &::after {
-      outline: 2px solid $accent;
+      outline: 2px solid var(--color-accent);
       outline-offset: 2px;
     }
   }
@@ -280,12 +283,12 @@ $rail-width: 116px;
 
 .experience__separator {
   margin: 0 6px;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--color-text-faint);
 }
 
 .experience__company {
-  font-weight: 500;            // ← down from inherited 600
-  color: $accent;
+  font-weight: 500;
+  color: var(--color-accent);
   transition: opacity 0.3s ease;
 
   .experience__item:hover & {
@@ -294,14 +297,13 @@ $rail-width: 116px;
 }
 
 .experience__arrow {
-  display: inline-block;   // ← add this
+  display: inline-block;
   width: 12px;
   height: 12px;
   margin-left: 5px;
-  color: $accent;
+  color: var(--color-accent);
   vertical-align: baseline;
   transition: transform 0.3s ease;
-  // ...hover rules unchanged
 }
 
 .experience__previous {
@@ -314,7 +316,7 @@ $rail-width: 116px;
 .experience__previous-title {
   font-size: 14px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--color-text-muted);
   line-height: 1.4;
 }
 
@@ -323,7 +325,7 @@ $rail-width: 116px;
   font-size: 12px;
   font-weight: 400;
   letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--color-text-muted);
 }
 
 .experience__description {
@@ -339,7 +341,7 @@ $rail-width: 116px;
     padding-left: 20px;
     font-size: 15px;
     line-height: 1.7;
-    color: rgba(255, 255, 255, 0.65);
+    color: var(--color-text-secondary);
 
     &::before {
       content: '';
@@ -349,7 +351,7 @@ $rail-width: 116px;
       width: 5px;
       height: 5px;
       border-radius: 50%;
-      background: $accent;
+      background: var(--color-accent);
     }
 
     @media (max-width: 480px) {
@@ -378,19 +380,19 @@ $rail-width: 116px;
   font-weight: 400;
   letter-spacing: 0.01em;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.42);
+  color: var(--color-text-muted);
   white-space: nowrap;
   transition: color 0.3s ease;
 
   .experience__item:hover &,
   .experience__item:focus-within & {
-    color: rgba(255, 255, 255, 0.62);
+    color: var(--color-text-secondary);
   }
 }
 
 .experience__empty {
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--color-text-muted);
   font-style: italic;
   margin: 0;
 }

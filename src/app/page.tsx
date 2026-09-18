@@ -2,6 +2,7 @@
 
 import "./main.scss"
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "next-themes";
 
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
@@ -25,6 +26,14 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const [blurActive, setBlurActive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Theme is resolved HERE, outside <Canvas>, and handed to <Scene> as a prop.
+  // react-three-fiber runs a separate reconciler, so React context (which is how
+  // next-themes works) does not reach components rendered inside the Canvas.
+  const { resolvedTheme } = useTheme();
+  const [themeMounted, setThemeMounted] = useState(false);
+  useEffect(() => setThemeMounted(true), []);
+  const isLight = themeMounted && resolvedTheme === "light";
 
   // Mobile check
   useEffect(() => {
@@ -212,7 +221,7 @@ useEffect(() => {
       {/* Z-INDEX 2: 3D Model Canvas */}
       <div className="canvas-container">
         <Canvas dpr={[1, 2]}>
-          <Scene isMobile={isMobile} onReady={handleSceneReady} />
+          <Scene isMobile={isMobile} isLight={isLight} onReady={handleSceneReady} />
           <OrbitControls 
             makeDefault
             enablePan={false} 

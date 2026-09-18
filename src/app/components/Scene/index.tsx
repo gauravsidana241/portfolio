@@ -11,11 +11,19 @@ const AnimatedMaterial = a(MeshDistortMaterial)
 
 interface SceneProps {
   isMobile: boolean;
+  /**
+   * Resolved from next-themes in page.tsx and passed down as a prop.
+   *
+   * IMPORTANT: do NOT call useTheme() in here. <Canvas> runs its own
+   * react-three-fiber reconciler, and React context does not cross that
+   * boundary — the hook would read defaults, not the live theme.
+   */
+  isLight?: boolean;
   onReady?: () => void;
 }
 
 // Inner component that renders after Suspense resolves
-function SceneContent({ isMobile, onReady }: SceneProps) {
+function SceneContent({ isMobile, isLight = false, onReady }: SceneProps) {
   const sphere = useRef<THREE.Mesh>(null!)
   const light = useRef<THREE.PointLight>(null!)
   const hasCalledReady = useRef(false)
@@ -37,7 +45,6 @@ function SceneContent({ isMobile, onReady }: SceneProps) {
 
     // Passive floating animation
     if (sphere.current) {
-      // const baseY = isMobile ? 0.7 : 0
       sphere.current.position.y = Math.sin(state.clock.elapsedTime / 1.5) / 6
     }
   })
@@ -53,21 +60,38 @@ function SceneContent({ isMobile, onReady }: SceneProps) {
     [isMobile]
   )
 
+  // Blob colour crossfades with the theme rather than snapping.
+  // react-spring interpolates hex strings natively.
+  const [{ color, envMapIntensity }] = useSpring(
+    {
+      color: isLight ? '#f2f2f2' : '#000000',
+      envMapIntensity: isLight ? 0.55 : 1,
+      config: { mass: 1, tension: 180, friction: 26 }
+    },
+    [isLight]
+  )
+
   return (
     <>
       <PerspectiveCamera makeDefault position={[0, 0, 4]} fov={75}>
-        <ambientLight intensity={0.5} />
-        <pointLight ref={light} position={[0, 0, -15]} intensity={1} color="#bf082e" />
+        <ambientLight intensity={isLight ? 0.9 : 0.5} />
+        <pointLight
+          ref={light}
+          position={[0, 0, -15]}
+          intensity={isLight ? 0.6 : 1}
+          // Deep red rim reads as grime on a white blob, so soften it in light mode
+          color={isLight ? '#ff9db0' : '#bf082e'}
+        />
       </PerspectiveCamera>
-      
+
       <a.mesh
         ref={sphere}
         scale={scale as any}
       >
         <sphereGeometry args={[1, 64, 64]} />
         <AnimatedMaterial
-          color="#000000"
-          envMapIntensity={1}
+          color={color as any}
+          envMapIntensity={envMapIntensity as any}
           clearcoat={0.1}
           clearcoatRoughness={0}
           metalness={0}
@@ -75,13 +99,19 @@ function SceneContent({ isMobile, onReady }: SceneProps) {
           speed={4}
         />
       </a.mesh>
-      
+
+      {/*
+        Deliberately NOT switching the Environment preset by theme. Presets are
+        fetched from a CDN, so changing it re-suspends this subtree and the blob
+        would vanish for a beat on every toggle. Lighting + envMapIntensity do
+        the work instead.
+      */}
       <Environment preset="warehouse" />
-      
+
       <ContactShadows
         rotation={[Math.PI / 2, 0, 0]}
         position={[0, -1.6, 0]}
-        opacity={0.4}
+        opacity={isLight ? 0.22 : 0.4}
         width={15}
         height={15}
         blur={2.5}
@@ -91,10 +121,10 @@ function SceneContent({ isMobile, onReady }: SceneProps) {
   )
 }
 
-export default function Scene({ isMobile, onReady }: SceneProps) {
+export default function Scene({ isMobile, isLight, onReady }: SceneProps) {
   return (
     <Suspense fallback={null}>
-      <SceneContent isMobile={isMobile} onReady={onReady} />
+      <SceneContent isMobile={isMobile} isLight={isLight} onReady={onReady} />
     </Suspense>
   )
 }

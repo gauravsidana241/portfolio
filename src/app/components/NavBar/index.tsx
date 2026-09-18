@@ -1,6 +1,7 @@
 "use client"
 
 import './NavBar.scss'
+import ThemeToggle from "../ThemeToggle";
 import React, { useState, useEffect, useRef } from 'react'
 
 interface NavItem {
@@ -26,7 +27,7 @@ export default function NavBar({ items, isMobile = false }: NavBarProps) {
         window.requestAnimationFrame(() => {
           const currentScrollY = window.scrollY;
           const scrollDelta = currentScrollY - lastScrollY.current;
-          
+
           // Show navbar when scrolling up or at top
           // Hide when scrolling down past threshold
           if (currentScrollY < 50) {
@@ -37,7 +38,7 @@ export default function NavBar({ items, isMobile = false }: NavBarProps) {
           } else if (scrollDelta < -5) {
             setIsVisible(true);
           }
-          
+
           lastScrollY.current = currentScrollY;
           ticking.current = false;
         });
@@ -57,8 +58,8 @@ export default function NavBar({ items, isMobile = false }: NavBarProps) {
   if (isMobile) {
     return (
       <nav className={`mobile-navbar ${!isVisible ? 'hidden' : ''}`}>
-        <button 
-          className={`burger-btn ${isOpen ? 'open' : ''}`} 
+        <button
+          className={`burger-btn ${isOpen ? 'open' : ''}`}
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
         >
@@ -69,14 +70,19 @@ export default function NavBar({ items, isMobile = false }: NavBarProps) {
 
         <div className={`mobile-menu ${isOpen ? 'open' : ''}`}>
           {items.map((item, index) => (
-            <button 
-              key={index} 
+            <button
+              key={index}
               className="mobile-nav-btn"
               onClick={() => handleItemClick(item.action)}
             >
               {item.label}
             </button>
           ))}
+
+          {/* Theme toggle sits below the links, behind a hairline rule */}
+          <div className="mobile-menu__theme">
+            <ThemeToggle />
+          </div>
         </div>
       </nav>
     );
@@ -85,15 +91,18 @@ export default function NavBar({ items, isMobile = false }: NavBarProps) {
   return (
     <nav className={`glass-navbar ${!isVisible ? 'hidden' : ''}`}>
       {items.map((item, index) => (
-        <button 
-          key={index} 
-          className={`nav-btn ${item.highlight ? 'highlight' : ''}`} 
+        <button
+          key={index}
+          className={`nav-btn ${item.highlight ? 'highlight' : ''}`}
           onClick={item?.action ? item.action : () => {}}
         >
           {item.label}
           {item.highlight && <span className="shine"></span>}
         </button>
       ))}
+
+      <span className="glass-navbar__divider" />
+      <ThemeToggle />
     </nav>
   )
 }
