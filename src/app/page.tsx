@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import "./main.scss"
+import "./main.scss";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
 
 // components
 import NavBar from "./components/NavBar";
@@ -18,8 +18,13 @@ import Loader from "./components/Loader";
 import Contact from "./components/Contact";
 import GlassButton from "./components/GlassButton";
 import { Reveal } from "./hooks/useScrollReveal";
-import { LinkedinIcon, GithubIcon, MailIcon, DownloadIcon } from "./components/Icons";
-import type { ExperienceItem } from './components/Experience'
+import {
+  LinkedinIcon,
+  GithubIcon,
+  MailIcon,
+  DownloadIcon,
+} from "./components/Icons";
+import type { ExperienceItem } from "./components/Experience";
 
 export default function Home() {
   const roleTextRef = useRef<HTMLDivElement>(null);
@@ -39,39 +44,39 @@ export default function Home() {
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // Scroll sync for role text AND blur overlay activation
   // Scroll sync for role text AND blur overlay activation
-useEffect(() => {
-  let ticking = false;
-  
-  const handleScroll = () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        const scrollY = window.scrollY;
-        const heroHeight = window.innerHeight * 0.50;
-        
-        if (roleTextRef.current) {
-          roleTextRef.current.style.transform = `translateY(${-scrollY}px)`;
-        }
-        
-        setBlurActive(scrollY > heroHeight);
-        ticking = false;
-      });
-      ticking = true;
-    }
-  };
+  useEffect(() => {
+    let ticking = false;
 
-  window.addEventListener('scroll', handleScroll, { passive: true });
-  
-  // Set initial position
-  handleScroll();
-  
-  return () => window.removeEventListener('scroll', handleScroll);
-}, []);
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const heroHeight = window.innerHeight * 0.5;
+
+          if (roleTextRef.current) {
+            roleTextRef.current.style.transform = `translateY(${-scrollY}px)`;
+          }
+
+          setBlurActive(scrollY > heroHeight);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Set initial position
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Callback when mesh/scene is ready
   const handleSceneReady = () => {
@@ -83,162 +88,182 @@ useEffect(() => {
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
-    if (element) element.scrollIntoView({ behavior: 'smooth' });
+    if (element) element.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleViewResume = () => {
-    window.open('/resumes/resume.pdf', '_blank');
+    window.open("/resumes/resume.pdf", "_blank");
   };
 
   const projects = [
     {
-      "id": 1,
-      "title": "FormHook Delivery System",
-      "description": "Fault-tolerant webhook infrastructure featuring distributed job queues, exponential backoff retries, and real-time failure simulation.",
-      "techStack": ["Next.js 16", "TypeScript", "BullMQ", "Redis", "Node.js"],
-      "demoUrl": "https://formhook.vercel.app/",
-      "repoUrl": "https://github.com/gauravsidana241/formhook"
+      id: 8,
+      title: "Workflow Automation Platform",
+      description:
+        "No-code automation platform in the vein of Zapier and n8n. Users connect apps and APIs on a drag-and-drop canvas using triggers, conditions, loops and actions. Every workflow runs on Temporal, so long-running automations survive restarts, with automatic retries, live step-by-step run tracing and full run history.",
+      techStack: ["React", "React Flow", "TypeScript", "Node.js", "Temporal"],
+      repoUrl:
+        "https://github.com/gauravsidana241/workflow-builder/tree/feat/workflow-builder",
     },
     {
-      "id": 4,
-      "title": "Snake AI Agent",
-      "description": "Autonomous game-playing agent using Deep Q-Learning (Reinforcement Learning) with CNN-based state representation to achieve optimal survival strategies.",
-      "techStack": ["Python", "PyTorch", "Pygame", "NumPy"],
-      "repoUrl": "https://github.com/gauravsidana241/snake-ai-cnn"
+      id: 1,
+      title: "FormHook Delivery System",
+      description:
+        "Fault-tolerant webhook infrastructure featuring distributed job queues, exponential backoff retries, and real-time failure simulation.",
+      techStack: ["Next.js 16", "TypeScript", "BullMQ", "Redis", "Node.js"],
+      demoUrl: "https://formhook.vercel.app/",
+      repoUrl: "https://github.com/gauravsidana241/formhook",
     },
     {
-      "id": 5,
-      "title": "Speech Emotion Recognition",
-      "description": "AI system built using CNN architectures to identify human emotions from audio. Features a case study comparing various tested methods and model architectures for optimal accuracy.",
-      "techStack": ["Python", "PyTorch", "Librosa"],
-      "demoUrl": "https://speech-emotion-detection.vercel.app/",
-      "repoUrl": "https://github.com/gauravsidana241/speech-emotion-detection"
+      id: 4,
+      title: "Snake AI Agent",
+      description:
+        "Autonomous game-playing agent using Deep Q-Learning (Reinforcement Learning) with CNN-based state representation to achieve optimal survival strategies.",
+      techStack: ["Python", "PyTorch", "Pygame", "NumPy"],
+      repoUrl: "https://github.com/gauravsidana241/snake-ai-cnn",
     },
     {
-      "id": 2,
-      "title": "Crime Alert System",
-      "description": "Full-stack reporting platform featuring role-based access control (RBAC) and interactive mapping for real-time public safety monitoring.",
-      "techStack": ["React.js", "Node.js", "Sequelize", "Mapbox"],
-      "repoUrl": "https://github.com/gauravsidana241/crimealert"
+      id: 5,
+      title: "Speech Emotion Recognition",
+      description:
+        "AI system built using CNN architectures to identify human emotions from audio. Features a case study comparing various tested methods and model architectures for optimal accuracy.",
+      techStack: ["Python", "PyTorch", "Librosa"],
+      demoUrl: "https://speech-emotion-detection.vercel.app/",
+      repoUrl: "https://github.com/gauravsidana241/speech-emotion-detection",
     },
     {
-      "id": 3,
-      "title": "Virtual Programming Lab",
-      "description": "Interactive online coding environment with multi-tier user management designed to streamline workflows for students and instructors.",
-      "techStack": ["JavaScript", "PHP", "CSS"],
+      id: 2,
+      title: "Crime Alert System",
+      description:
+        "Full-stack reporting platform featuring role-based access control (RBAC) and interactive mapping for real-time public safety monitoring.",
+      techStack: ["React.js", "Node.js", "Sequelize", "Mapbox"],
+      repoUrl: "https://github.com/gauravsidana241/crimealert",
     },
     {
-      "id": 6,
-      "title": "Emoji Password Authentication",
-      "description": "Full-stack authentication system proposing emoji-based passwords as an alternative credential mechanism. Features a NoSQL MongoDB Atlas backend, deployed via a CI/CD pipeline on Render with a Next.js frontend.",
-      "techStack": ["Next.js", "React", "MongoDB Atlas", "Render", "Node.js"],
-      "demoUrl": "https://emoji-password.vercel.app/",
-      "repoUrl": "https://github.com/gauravsidana241/emoji-password"
+      id: 3,
+      title: "Virtual Programming Lab",
+      description:
+        "Interactive online coding environment with multi-tier user management designed to streamline workflows for students and instructors.",
+      techStack: ["JavaScript", "PHP", "CSS"],
     },
     {
-      "id": 7,
-      "title": "Retail Inventory Manager",
-      "description": "Product inventory system designed for e-commerce and retail platforms. Implements core CRUD operations via a single-page application and custom RESTful APIs.",
-      "techStack": ["React", "Node.js", "Express.js", "MongoDB", "Bootstrap"],
-      "repoUrl": "https://github.com/gauravsidana241/Fynd-Products-App"
-    }
-  ]
+      id: 6,
+      title: "Emoji Password Authentication",
+      description:
+        "Full-stack authentication system proposing emoji-based passwords as an alternative credential mechanism. Features a NoSQL MongoDB Atlas backend, deployed via a CI/CD pipeline on Render with a Next.js frontend.",
+      techStack: ["Next.js", "React", "MongoDB Atlas", "Render", "Node.js"],
+      demoUrl: "https://emoji-password.vercel.app/",
+      repoUrl: "https://github.com/gauravsidana241/emoji-password",
+    },
+    {
+      id: 7,
+      title: "Retail Inventory Manager",
+      description:
+        "Product inventory system designed for e-commerce and retail platforms. Implements core CRUD operations via a single-page application and custom RESTful APIs.",
+      techStack: ["React", "Node.js", "Express.js", "MongoDB", "Bootstrap"],
+      repoUrl: "https://github.com/gauravsidana241/Fynd-Products-App",
+    },
+  ];
 
   const navItems = [
-    { label: "About", action: () => scrollToSection('about') },
-    { label: "Experience", action: () => scrollToSection('experience') },
-    { label: "Projects", action: () => scrollToSection('projects') },
-    { label: "Contact", action: () => scrollToSection('contact') },
+    { label: "About", action: () => scrollToSection("about") },
+    { label: "Experience", action: () => scrollToSection("experience") },
+    { label: "Projects", action: () => scrollToSection("projects") },
+    { label: "Contact", action: () => scrollToSection("contact") },
   ];
 
   const experienceList: ExperienceItem[] = [
-  {
-    position: "MSc Computing Science (AI Focus)",
-    company: "University of Glasgow",
-    startDate: "Sept 2025",
-    endDate: undefined,
-    description: [
-      "Specializing in Artificial Intelligence and Machine Learning, with a focus on advanced algorithms and system design.",
-      "Deepening theoretical and practical knowledge in large-scale computing systems."
-    ],
-    companyLink: "https://www.gla.ac.uk/",
-    technologies: ["Python", "PyTorch", "Machine Learning", "System Design"]
-  },
-  {
-    position: "Software Development Engineer",
-    company: "Fynd (Shopsense Retail)",
-    startDate: "Jan 2024",
-    endDate: "Aug 2025",
-    description: [
-      "Acted as a key developer in the architectural overhaul of 9 marketplace integrations, migrating from siloed applications to a unified platform orchestrated by Temporal workflows.",
-      "Designed and implemented a resilient, event-driven integration for the Amazon VDF marketplace, utilizing BullMQ and KafkaJS to process high-volume feed APIs.",
-      "Enhanced system-wide reliability by authoring the complete testing suite (using Jest and Specmatic) and integrating OpenTelemetry for distributed tracing.",
-      "Supported the infrastructure and deployment pipeline by managing containerized applications with Kubernetes and Docker."
-    ],
-    companyLink: "https://www.fynd.com/",
-    technologies: [
-      "TypeScript",
-      "Node.js",
-      "Temporal",
-      "Kafka",
-      "BullMQ",
-      "OpenTelemetry",
-      "Jest",
-      "Specmatic",
-      "Kubernetes",
-      "Docker"
-    ]
-  },
-  {
-    position: "Intern",
-    company: "Fynd (Shopsense Retail)",
-    startDate: "Oct 2023",
-    endDate: "Jan 2024",
-    description: [
-      "Completed 3 months of training in Full Stack Development with JavaScript.",
-      "Learned key technologies including MongoDB, Express, Vue.js, and Node.js."
-    ],
-    companyLink: "https://www.fynd.com/",
-    technologies: ["JavaScript", "Vue.js", "Node.js", "Express", "MongoDB"]
-  }
-];
+    {
+      position: "MSc Computing Science (AI Focus)",
+      company: "University of Glasgow",
+      startDate: "Sept 2025",
+      endDate: undefined,
+      description: [
+        "Specializing in Artificial Intelligence and Machine Learning, with a focus on advanced algorithms and system design.",
+        "Deepening theoretical and practical knowledge in large-scale computing systems.",
+      ],
+      companyLink: "https://www.gla.ac.uk/",
+      technologies: ["Python", "PyTorch", "Machine Learning", "System Design"],
+    },
+    {
+      position: "Software Development Engineer",
+      company: "Fynd (Shopsense Retail)",
+      startDate: "Jan 2024",
+      endDate: "Aug 2025",
+      description: [
+        "Acted as a key developer in the architectural overhaul of 9 marketplace integrations, migrating from siloed applications to a unified platform orchestrated by Temporal workflows.",
+        "Designed and implemented a resilient, event-driven integration for the Amazon VDF marketplace, utilizing BullMQ and KafkaJS to process high-volume feed APIs.",
+        "Enhanced system-wide reliability by authoring the complete testing suite (using Jest and Specmatic) and integrating OpenTelemetry for distributed tracing.",
+        "Supported the infrastructure and deployment pipeline by managing containerized applications with Kubernetes and Docker.",
+      ],
+      companyLink: "https://www.fynd.com/",
+      technologies: [
+        "TypeScript",
+        "Node.js",
+        "Temporal",
+        "Kafka",
+        "BullMQ",
+        "OpenTelemetry",
+        "Jest",
+        "Specmatic",
+        "Kubernetes",
+        "Docker",
+      ],
+    },
+    {
+      position: "Intern",
+      company: "Fynd (Shopsense Retail)",
+      startDate: "Oct 2023",
+      endDate: "Jan 2024",
+      description: [
+        "Completed 3 months of training in Full Stack Development with JavaScript.",
+        "Learned key technologies including MongoDB, Express, Vue.js, and Node.js.",
+      ],
+      companyLink: "https://www.fynd.com/",
+      technologies: ["JavaScript", "Vue.js", "Node.js", "Express", "MongoDB"],
+    },
+  ];
 
   return (
     <>
       {/* Loader - shows until mesh is ready */}
       <Loader isLoading={isLoading} />
-      
+
       {/* Z-INDEX 1: Fixed background gradient */}
       <div className="background-gradient"></div>
-      
+
       {/* Z-INDEX 1.5: Role text */}
       <div className="role-text-background" ref={roleTextRef}>
         <span className="role-line">FULL STACK</span>
         <span className="role-line">DEVELOPER</span>
         {/* <span className="role-line-tall">2026</span> */}
       </div>
-      
+
       {/* Z-INDEX 2: 3D Model Canvas */}
       <div className="canvas-container">
         <Canvas dpr={[1, 2]}>
-          <Scene isMobile={isMobile} isLight={isLight} onReady={handleSceneReady} />
-          <OrbitControls 
+          <Scene
+            isMobile={isMobile}
+            isLight={isLight}
+            onReady={handleSceneReady}
+          />
+          <OrbitControls
             makeDefault
-            enablePan={false} 
-            enableZoom={false} 
-            maxPolarAngle={Math.PI / 2} 
-            minPolarAngle={Math.PI / 2} 
+            enablePan={false}
+            enableZoom={false}
+            maxPolarAngle={Math.PI / 2}
+            minPolarAngle={Math.PI / 2}
           />
         </Canvas>
       </div>
-      
+
       {/* Z-INDEX 2.5: Blur overlay */}
-      <div className={`blur-overlay ${blurActive ? 'active' : ''}`}></div>
-      
+      <div className={`blur-overlay ${blurActive ? "active" : ""}`}></div>
+
       {/* Z-INDEX 3: Content Layer */}
       <div className="content-container" id="intro">
         <NavBar items={navItems} isMobile={isMobile} />
-        
+
         {/* Hero Section */}
         <div className="hero-section">
           <div className="intro-content">
@@ -247,26 +272,35 @@ useEffect(() => {
                 <div className="bottom-anchor">
                   <div className="greeting-container">
                     <h1>
-                      Hi, I am 
+                      Hi, I am
                       <span className="name-highlight">
-                        Gaurav <span className="name-highlight__red">Sidana</span>
+                        Gaurav{" "}
+                        <span className="name-highlight__red">Sidana</span>
                       </span>
                     </h1>
                     <p className="intro-brief">
-                      Software engineer focused on building exceptional digital experiences; currently pursuing a Master's 
-                      at Glasgow to combine backend expertise with AI innovation.
+                      Software engineer focused on building exceptional digital
+                      experiences; currently pursuing a Master's at Glasgow to
+                      combine backend expertise with AI innovation.
                     </p>
                     <div className="social-links">
-                      <a href="https://www.linkedin.com/in/gaurav-sidana-7a5118242" target="_blank" rel="noopener noreferrer" className="social-btn">
+                      <a
+                        href="https://www.linkedin.com/in/gaurav-sidana-7a5118242"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="social-btn"
+                      >
                         <LinkedinIcon size={20} />
                       </a>
-                      <a href="https://github.com/gauravsidana241" target="_blank" rel="noopener noreferrer" className="social-btn">
+                      <a
+                        href="https://github.com/gauravsidana241"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="social-btn"
+                      >
                         <GithubIcon size={20} />
                       </a>
-                      <GlassButton 
-                        text="Resume" 
-                        onClick={handleViewResume}
-                      />
+                      <GlassButton text="Resume" onClick={handleViewResume} />
                     </div>
                   </div>
                 </div>
@@ -280,25 +314,33 @@ useEffect(() => {
                       Gaurav <span className="name-highlight">Sidana</span>
                     </h1>
                     <p className="intro-brief">
-                      Software engineer focused on building exceptional digital experiences; currently pursuing a Master's 
-                      at Glasgow to combine backend expertise with AI innovation.
+                      Software engineer focused on building exceptional digital
+                      experiences; currently pursuing a Master's at Glasgow to
+                      combine backend expertise with AI innovation.
                     </p>
                     <div className="social-links">
-                      <a href="https://www.linkedin.com/in/gaurav-sidana-7a5118242" target="_blank" rel="noopener noreferrer" className="social-btn">
+                      <a
+                        href="https://www.linkedin.com/in/gaurav-sidana-7a5118242"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="social-btn"
+                      >
                         <LinkedinIcon size={22} />
                       </a>
-                      <a href="https://github.com/gauravsidana241" target="_blank" rel="noopener noreferrer" className="social-btn">
+                      <a
+                        href="https://github.com/gauravsidana241"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="social-btn"
+                      >
                         <GithubIcon size={22} />
                       </a>
-                      <GlassButton 
-                        text="Resume" 
-                        onClick={handleViewResume}
-                      />
+                      <GlassButton text="Resume" onClick={handleViewResume} />
                     </div>
                   </div>
                 </div>
               </Reveal>
-            )}  
+            )}
           </div>
         </div>
 
@@ -306,14 +348,18 @@ useEffect(() => {
           {/* About Section */}
           <Reveal>
             <div className="my-about-section" id="about">
-              <About isMobile={isMobile} sectionNumber="01" numberPosition="left" />
+              <About
+                isMobile={isMobile}
+                sectionNumber="01"
+                numberPosition="left"
+              />
             </div>
           </Reveal>
-          
+
           {/* Experience Section */}
           <Reveal>
             <div className="experience-section" id="experience">
-              <ExperienceComponent 
+              <ExperienceComponent
                 experienceList={experienceList}
                 isMobile={isMobile}
                 sectionNumber="02"
@@ -321,11 +367,11 @@ useEffect(() => {
               />
             </div>
           </Reveal>
-          
+
           {/* Projects Section */}
           <Reveal>
             <div className="projects-section" id="projects">
-              <Projects 
+              <Projects
                 projects={projects}
                 isMobile={isMobile}
                 sectionNumber="03"
@@ -336,18 +382,18 @@ useEffect(() => {
 
           {/* Contact */}
           <Reveal>
-          <div className="contact-section" id="contact">
-            <Contact 
-              email="gauravsidana241@gmail.com"
-              isMobile={isMobile}
-              sectionNumber="04"
-            />
-          </div>
+            <div className="contact-section" id="contact">
+              <Contact
+                email="gauravsidana241@gmail.com"
+                isMobile={isMobile}
+                sectionNumber="04"
+              />
+            </div>
           </Reveal>
-          
+
           {/* Footer */}
           <Reveal direction="none">
-            <Footer 
+            <Footer
               email="gauravsidana241@gmail.com"
               githubUrl="https://github.com/gauravsidana241"
               linkedinUrl="https://www.linkedin.com/in/gaurav-sidana-7a5118242"
